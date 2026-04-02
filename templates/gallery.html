@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Gallery — Utsav Banquet Hall, Baramati</title>
+<meta name="description" content="Explore the gallery of Utsav Banquet Hall — wedding ceremonies, reception setups, floral decorations, and stage designs at our premium venue in Baramati." />
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="pt-32 pb-16 bg-charcoal text-center">
+  <p class="text-xs text-gold-400 uppercase tracking-[0.3em] font-semibold mb-3">Moments Captured</p>
+  <h1 class="font-display text-5xl md:text-6xl text-white font-bold">Our Gallery</h1>
+  <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-6"></div>
+</div>
+
+<!-- Gallery Grid -->
+<section class="py-20 max-w-6xl mx-auto px-6">
+  <div class="text-center mb-12 reveal">
+    <p class="text-gray-500 text-sm max-w-xl mx-auto leading-relaxed">
+      Every frame tells a story of meticulous planning, exquisite decor, and moments that families treasure for a lifetime.
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 reveal">
+    {% set images = [
+      ("gallery1.png", "Wedding Ceremony Setup", "Mandap with floral arrangements"),
+      ("gallery2.png", "Reception Hall", "Elegant table settings with fine crystal"),
+      ("gallery3.png", "Floral Stage Decor", "Cascading rose floral backdrop"),
+      ("gallery4.png", "Dining Setup", "Aerial view of banquet dining tables"),
+      ("gallery5.png", "Stage Lighting", "Dramatic uplighting with fabric draping"),
+      ("gallery6.png", "Hall Exterior", "Grand entrance at night"),
+    ] %}
+    {% for filename, title, caption in images %}
+    <div class="gallery-item group relative overflow-hidden rounded-2xl cursor-pointer shadow-md hover:shadow-xl transition-shadow duration-300">
+      <img
+        src="/static/images/{{ filename }}"
+        alt="{{ title }} — Utsav Banquet Hall, Baramati"
+        class="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-110"
+        loading="lazy"
+      />
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex flex-col justify-end p-6">
+        <h3 class="font-display text-white text-lg font-semibold translate-y-4 group-hover:translate-y-0 transition-transform duration-400">{{ title }}</h3>
+        <p class="text-gold-300 text-xs mt-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{{ caption }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Invite CTA -->
+<section class="py-20 bg-charcoal text-center">
+  <div class="max-w-2xl mx-auto px-6 reveal">
+    <p class="text-xs text-gold-400 uppercase tracking-[0.3em] font-semibold mb-4">Your Event, Here</p>
+    <h2 class="font-display text-4xl text-white font-bold mb-6">
+      Be Part of Our Story
+    </h2>
+    <p class="text-gray-400 text-sm leading-relaxed mb-10">
+      These moments could be yours. Book your event at Utsav and let us create memories that last a lifetime.
+    </p>
+    <a href="/booking" class="bg-gold-500 hover:bg-gold-400 text-white px-10 py-4 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:shadow-xl hover:-translate-y-1 inline-block">
+      Book Your Date
+    </a>
+  </div>
+</section>
+
+{% endblock %}

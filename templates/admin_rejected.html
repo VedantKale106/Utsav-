@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Rejected Requests | Utsav Banquet Hall</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-slate-50 font-sans">
+  
+  <div class="pt-24 pb-12 bg-charcoal shadow-lg">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 class="font-display text-4xl text-white font-bold tracking-tight">Rejected Requests</h1>
+          <p class="text-white/60 mt-1">Review previously declined booking requests.</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="{{ url_for('admin.dashboard') }}" class="text-sm text-white/80 hover:text-white transition-colors">Back to Dashboard</a>
+          <a href="{{ url_for('admin.logout') }}" 
+             class="bg-white/10 hover:bg-red-500/20 text-white border border-white/20 hover:border-red-500/50 px-5 py-2.5 rounded-xl transition-all text-sm font-medium">
+             Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-10 max-w-7xl mx-auto px-6">
+    <div class="flex items-center gap-3 mb-6">
+      <div class="w-2 h-8 bg-red-500 rounded-full"></div>
+      <h2 class="font-display text-2xl font-bold text-charcoal">Rejected Booking Requests</h2>
+    </div>
+
+    {% if requests %}
+    <div class="bg-white rounded-3xl border border-gray-200 overflow-hidden mb-16 shadow-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-6 py-4">Name</th>
+              <th class="px-6 py-4">Phone</th>
+              <th class="px-6 py-4">Date requested</th>
+              <th class="px-6 py-4">Slot</th>
+              <th class="px-6 py-4">Event</th>
+              <th class="px-6 py-4">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in requests %}
+            <tr class="bg-white border-b border-gray-100 hover:bg-red-50 transition-colors">
+              <td class="px-6 py-4 font-medium text-gray-900">{{ req.name }}</td>
+              <td class="px-6 py-4">{{ req.phone }}</td>
+              <td class="px-6 py-4 font-semibold">{{ req.date }}</td>
+              <td class="px-6 py-4 capitalize">{{ req.slot.replace('_', ' ') }}</td>
+              <td class="px-6 py-4">{{ req.event_type }}</td>
+              <td class="px-6 py-4">
+                <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded-md">Rejected</span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="bg-white border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center mb-16">
+      <p class="text-gray-400 font-medium">No rejected requests found.</p>
+    </div>
+    {% endif %}
+
+  </section>
+</div>
+{% endblock %}

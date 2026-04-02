@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Pricing — Utsav Banquet Hall, Baramati</title>
+<meta name="description" content="Transparent pricing at Utsav Banquet Hall. Morning from Rs. 25,000, Evening from Rs. 35,000. Book with just 30% advance. No hidden charges." />
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="pt-32 pb-16 bg-charcoal text-center">
+  <p class="text-xs text-gold-400 uppercase tracking-[0.3em] font-semibold mb-3">No Hidden Charges</p>
+  <h1 class="font-display text-5xl md:text-6xl text-white font-bold">Our Pricing</h1>
+  <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-6"></div>
+</div>
+
+<!-- Pricing Cards -->
+<section class="py-24 max-w-6xl mx-auto px-6">
+  <div class="text-center mb-14 reveal">
+    <p class="text-gray-500 text-sm max-w-xl mx-auto">
+      Every slot includes full access to our AC hall, parking, and basic setup. Advance of 30% is collected at time of booking.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 reveal">
+    {% set slots = [
+      ("Morning", "morning", "25,000", "7,500", "7 AM – 12 PM", "Perfect for engagement ceremonies, morning weddings, and religious functions."),
+      ("Afternoon", "afternoon", "20,000", "6,000", "12 PM – 5 PM", "Ideal for daytime receptions, luncheons, and corporate gatherings."),
+      ("Evening", "evening", "35,000", "10,500", "5 PM – 11 PM", "Our most sought-after slot — perfect for grand receptions and weddings.", True),
+      ("Full Day", "full_day", "70,000", "21,000", "7 AM – 11 PM", "Complete day access for multi-ceremony events with ample setup time."),
+    ] %}
+    {% for item in slots %}
+    {% set is_featured = item|length == 6 %}
+    <div class="relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl
+      {% if is_featured %}bg-charcoal text-white{% else %}bg-white border border-gold-100 hover:border-gold-300{% endif %}">
+      {% if is_featured %}
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600"></div>
+      <div class="absolute top-4 right-4 bg-gold-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Popular</div>
+      {% endif %}
+
+      <div class="p-8 flex-1">
+        <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if is_featured %}text-gold-400{% else %}text-gold-500{% endif %} mb-4">{{ item[0] }}</p>
+        <div class="mb-3">
+          <span class="font-display text-4xl font-bold {% if is_featured %}text-white{% else %}text-charcoal{% endif %}">
+            Rs. {{ item[2] }}
+          </span>
+        </div>
+        <p class="text-xs {% if is_featured %}text-gray-400{% else %}text-gray-400{% endif %} mb-1">{{ item[4] }}</p>
+        <div class="w-8 h-0.5 {% if is_featured %}bg-gold-500{% else %}bg-gold-200{% endif %} my-5"></div>
+        <p class="text-sm {% if is_featured %}text-gray-300{% else %}text-gray-500{% endif %} leading-relaxed mb-8">{{ item[5] }}</p>
+
+        <!-- Advance info -->
+        <div class="{% if is_featured %}bg-white/10{% else %}bg-gold-50{% endif %} rounded-xl p-4 mb-6">
+          <p class="text-xs {% if is_featured %}text-gold-300{% else %}text-gold-600{% endif %} font-semibold mb-1">30% Advance</p>
+          <p class="font-display text-xl font-bold {% if is_featured %}text-gold-400{% else %}text-gold-700{% endif %}">Rs. {{ item[3] }}</p>
+          <p class="text-xs {% if is_featured %}text-gray-400{% else %}text-gray-400{% endif %}">Balance due on event day</p>
+        </div>
+
+        <!-- Inclusions -->
+        <ul class="space-y-2 mb-8">
+          {% for feature in ["AC Hall Access", "Parking for 200+ vehicles", "Basic Stage Setup", "In-house Changing Room"] %}
+          <li class="flex items-center gap-2 text-xs {% if is_featured %}text-gray-300{% else %}text-gray-500{% endif %}">
+            <svg class="w-3.5 h-3.5 text-gold-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+            </svg>
+            {{ feature }}
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="p-8 pt-0">
+        <a
+          href="/booking?slot={{ item[1] }}"
+          class="block text-center text-sm font-semibold tracking-wider uppercase py-3.5 rounded-full transition-all duration-300
+            {% if is_featured %}bg-gold-500 text-white hover:bg-gold-400{% else %}border-2 border-gold-400 text-gold-600 hover:bg-gold-500 hover:text-white hover:border-gold-500{% endif %}"
+        >
+          Book This Slot
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- FAQ / Notes -->
+<section class="py-16 bg-ivory border-t border-gold-100">
+  <div class="max-w-3xl mx-auto px-6 reveal">
+    <div class="text-center mb-10">
+      <h2 class="font-display text-3xl font-bold text-charcoal">Good to Know</h2>
+    </div>
+    <div class="space-y-4">
+      {% for q, a in [
+        ("Is the advance amount refundable?", "The 30% advance is non-refundable. However, in case of genuine emergencies, we offer one free date transfer with at least 15 days' notice."),
+        ("What does the price include?", "All slots include AC hall access, parking, basic stage setup, and dressing room. Decoration, catering, and sound systems can be added separately."),
+        ("How do I confirm my booking?", "Complete the online booking form and pay the 30% advance via our secured Razorpay payment gateway. Your booking is confirmed instantly."),
+        ("Can I visit the hall before booking?", "Absolutely. Call us to schedule a free walkthrough of the venue at any time convenient to you."),
+        ("Are outside caterers allowed?", "Yes, outside caterers are permitted subject to a nominal kitchen usage fee."),
+      ] %}
+      <details class="group border border-gold-100 rounded-xl overflow-hidden">
+        <summary class="flex justify-between items-center px-6 py-4 cursor-pointer font-medium text-sm text-charcoal hover:bg-gold-50 transition-colors list-none">
+          {{ q }}
+          <svg class="w-4 h-4 text-gold-500 group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <div class="px-6 pb-5 text-sm text-gray-500 leading-relaxed border-t border-gold-50 pt-4">
+          {{ a }}
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

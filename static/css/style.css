@@ -1,0 +1,135 @@
+/* ============================================================
+   Utsav Banquet Hall — Custom Styles
+   Supplements Tailwind CSS with animations, transitions,
+   and premium micro-interactions.
+============================================================ */
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #fdf8f0; }
+::-webkit-scrollbar-thumb { background: #c9a020; border-radius: 3px; }
+
+/* ---- Text selection ---- */
+::selection { background: #f3e0a0; color: #1c1c1e; }
+
+/* ---- Navbar ---- */
+#navbar {
+  background: transparent;
+}
+#navbar.scrolled {
+  background: rgba(253, 248, 240, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(201, 160, 32, 0.15);
+}
+#navbar.scrolled .nav-link,
+#navbar.scrolled a {
+  color: #1c1c1e;
+}
+#navbar:not(.scrolled) .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+#navbar:not(.scrolled) .nav-link:hover {
+  color: #f3e0a0;
+}
+.nav-link {
+  position: relative;
+  transition: color 0.2s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #c9a020;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after { width: 100%; }
+
+/* ---- Hamburger open state ---- */
+#menu-toggle.open .menu-bar:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+#menu-toggle.open .menu-bar:nth-child(2) { opacity: 0; }
+#menu-toggle.open .menu-bar:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ---- Hero scroll indicator animation ---- */
+.scroll-line {
+  animation: scrollDrop 2s ease-in-out infinite;
+}
+@keyframes scrollDrop {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.4); transform-origin: top; }
+}
+
+/* ---- Hero fade-in-up ---- */
+.animate-fade-in-up {
+  animation: fadeInUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Scroll reveal ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Slot card selected state ---- */
+.slot-card.selected {
+  border-color: #c9a020 !important;
+  background: #faf1d0;
+}
+
+/* ---- Availability status colours ---- */
+#availability-status.available {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #16a34a;
+}
+#availability-status.unavailable {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+}
+#availability-status.checking {
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
+
+/* ---- Slot availability badge ---- */
+.slot-badge.available-badge {
+  background: #dcfce7;
+  color: #16a34a;
+}
+.slot-badge.unavailable-badge {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ---- Gallery item ---- */
+.gallery-item {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s ease;
+}
+.gallery-item:hover { transform: scale(1.02); }
+
+/* ---- Details/accordion ---- */
+details summary::-webkit-details-marker { display: none; }
+
+/* ---- Prose nice spacing ---- */
+.prose p { margin-bottom: 0; }
