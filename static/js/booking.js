@@ -1,7 +1,6 @@
 /* ============================================================
-   booking.js — Full booking + Razorpay flow
-   Handles: validation, availability check, order creation,
-            Razorpay modal, payment verification, WhatsApp redirect.
+  booking.js — Booking request flow
+  Handles validation, availability checks, request creation, and WhatsApp redirect.
 ============================================================ */
 (function () {
   "use strict";
@@ -137,7 +136,7 @@
     if (el) { el.textContent = ""; el.classList.add("hidden"); }
   }
   function clearAllErrors() {
-    ["name", "phone", "event_type", "date", "slot"].forEach(clearError);
+    ["name", "phone", "event_type", "date", "slot", "consent"].forEach(clearError);
   }
 
   function validateForm() {
@@ -149,6 +148,7 @@
     var eventType = document.getElementById("event_type").value.trim();
     var date = dateInput ? dateInput.value.trim() : "";
     var slot = getSelectedSlot();
+    var consent = document.getElementById("consent").checked;
 
     if (!name) { showError("name", "Please enter your full name."); valid = false; }
     if (!phone || phone.length !== 10 || !/^\d{10}$/.test(phone)) {
@@ -158,6 +158,7 @@
     if (!date) { showError("date", "Please select an event date."); valid = false; }
     else if (date < today) { showError("date", "Please select a future date."); valid = false; }
     if (!slot) { showError("slot", "Please select a time slot."); valid = false; }
+    if (!consent) { showError("consent", "Please accept the privacy policy."); valid = false; }
 
     return valid;
   }
@@ -189,7 +190,7 @@
       // 1. Create booking request
       var orderData;
       try {
-        var orderRes = await fetch("/create-order", {
+        var orderRes = await fetch("/create-booking-request", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -198,6 +199,7 @@
             event_type: eventType,
             date: date,
             slot: slot,
+            consent: document.getElementById("consent").checked,
           }),
         });
         orderData = await orderRes.json();

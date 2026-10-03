@@ -63,10 +63,10 @@
 <!-- Stats Bar -->
 <section class="py-16 bg-gradient-to-r from-gold-600 to-gold-500">
   <div class="max-w-5xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center reveal">
-    {% for val, label in [("500+", "Events Hosted"), ("15+", "Years of Service"), ("1000+", "Happy Families"), ("4.9", "Average Rating")] %}
+    {% for stat in site.stats %}
     <div>
-      <p class="font-display text-4xl font-bold text-white mb-1">{{ val }}</p>
-      <p class="text-gold-100 text-xs uppercase tracking-widest">{{ label }}</p>
+      <p class="font-display text-4xl font-bold text-white mb-1">{{ stat.value }}</p>
+      <p class="text-gold-100 text-xs uppercase tracking-widest">{{ stat.label }}</p>
     </div>
     {% endfor %}
   </div>

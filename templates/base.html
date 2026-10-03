@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {% block meta %}
-  <title>Utsav Banquet Hall — Satav Chowk, Baramati</title>
+  <title>{{ site.business_name if site is defined else 'Utsav Banquet Hall' }} — Satav Chowk, Baramati</title>
   <meta name="description" content="Utsav is a premium banquet hall at Satav Chowk, Baramati. Book your wedding, reception, or corporate event today." />
   {% endblock %}
   <meta name="keywords" content="banquet hall baramati, wedding venue baramati, utsav banquet, satav chowk baramati, event hall pune" />
@@ -57,7 +57,7 @@
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
       <a href="/" class="font-display text-2xl text-gold-600 tracking-wide">
-        Utsav
+        {{ site.business_name }}
       </a>
 
       <!-- Desktop Menu -->
@@ -121,26 +121,26 @@
           <li><a href="/gallery" class="hover:text-gold-300 transition-colors">Gallery</a></li>
           <li><a href="/pricing" class="hover:text-gold-300 transition-colors">Pricing</a></li>
           <li><a href="/booking" class="hover:text-gold-300 transition-colors">Book Now</a></li>
+          <li><a href="/privacy" class="hover:text-gold-300 transition-colors">Privacy Policy</a></li>
         </ul>
       </div>
       <!-- Contact -->
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-widest text-gold-400 mb-4">Contact</h4>
         <address class="not-italic text-sm text-gray-400 space-y-2">
-          <p>Satav Chowk, Baramati</p>
-          <p>Pune District, Maharashtra 413102</p>
+          <p>{{ site.address }}</p>
           <p class="mt-3">
-            <a href="tel:+919999999999" class="hover:text-gold-300 transition-colors">+91 99999 99999</a>
+            <a href="tel:{{ site.phone|replace(' ', '') }}" class="hover:text-gold-300 transition-colors">{{ site.phone }}</a>
           </p>
           <p>
-            <a href="mailto:info@utsavbanquet.in" class="hover:text-gold-300 transition-colors">info@utsavbanquet.in</a>
+            <a href="mailto:{{ site.email }}" class="hover:text-gold-300 transition-colors">{{ site.email }}</a>
           </p>
         </address>
       </div>
     </div>
     <div class="max-w-6xl mx-auto px-6 mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-3">
-      <p class="text-xs text-gray-500">&copy; 2024 Utsav Banquet Hall. All rights reserved.</p>
-      <p class="text-xs text-gray-600">Satav Chowk, Baramati, Maharashtra</p>
+      <p class="text-xs text-gray-500">&copy; {{ current_year }} Utsav Banquet Hall. All rights reserved.</p>
+      <p class="text-xs text-gray-600">{{ site.address }}</p>
     </div>
   </footer>
 

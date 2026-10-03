@@ -24,7 +24,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-[#F8FAFC]">
+<div data-admin-dashboard class="min-h-screen bg-[#F8FAFC]">
   
   <header class="pt-20 pb-24 bg-[#0F172A] relative overflow-hidden">
     <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl"></div>
@@ -51,10 +51,16 @@
           <a href="{{ url_for('admin.rejected') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all">
             Archive
           </a>
-          <a href="{{ url_for('admin.logout') }}" 
-             class="bg-red-600 hover:bg-red-500 text-white px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-red-900/20 text-sm font-bold">
-             Sign Out
+          <a href="{{ url_for('admin.settings') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-yellow-400 hover:bg-yellow-500/10 transition-all">
+            Site Settings
           </a>
+          <a href="{{ url_for('admin.change_password') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            Password
+          </a>
+          <form method="POST" action="{{ url_for('admin.logout') }}">
+            <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+            <button type="submit" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2.5 rounded-xl transition-all shadow-lg shadow-red-900/20 text-sm font-bold">Sign Out</button>
+          </form>
         </div>
       </div>
 
@@ -80,7 +86,7 @@
   <main class="max-w-7xl mx-auto px-6 -mt-10 pb-20 relative z-20">
     
     {% if request.args.get('error') or request.args.get('msg') %}
-    <div class="mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+    <div class="mb-8 flex flex-col gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
         {% if request.args.get('error') %}
         <div class="p-4 bg-white border border-red-100 shadow-sm rounded-2xl flex items-center gap-4">
             <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-red-500">
@@ -90,11 +96,14 @@
         </div>
         {% endif %}
         {% if request.args.get('msg') %}
-        <div class="p-4 bg-white border border-green-100 shadow-sm rounded-2xl flex items-center gap-4">
+        <div class="p-4 bg-white border border-green-100 shadow-sm rounded-2xl flex flex-wrap items-center gap-4">
             <div class="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-500">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <p class="text-sm font-bold text-slate-700">{{ request.args.get('msg') }}</p>
+            {% if request.args.get('notify_url') %}
+            <a href="{{ request.args.get('notify_url') }}" target="_blank" rel="noopener" class="ml-auto bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-xl text-xs font-bold">Notify Customer on WhatsApp</a>
+            {% endif %}
         </div>
         {% endif %}
     </div>
@@ -141,11 +150,14 @@
 
           <div class="grid grid-cols-2 gap-3">
             <form method="POST" action="{{ url_for('admin.accept_request', req_id=req._id) }}">
+              <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
               <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs py-4 rounded-2xl transition-all shadow-md active:scale-95">
                 Approve
               </button>
             </form>
             <form method="POST" action="{{ url_for('admin.reject_request', req_id=req._id) }}">
+              <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+              <textarea name="reason" required maxlength="300" rows="2" placeholder="Reason for decline" class="col-span-2 w-full border border-slate-200 rounded-xl px-3 py-2 text-xs mb-2"></textarea>
               <button type="submit" 
                       onclick="return confirm('Reject this request?')"
                       class="w-full bg-white border border-slate-200 hover:border-red-200 hover:text-red-500 text-slate-500 font-bold text-xs py-4 rounded-2xl transition-all active:scale-95">
@@ -206,7 +218,15 @@
                   <span class="px-4 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg text-xs font-black">{{ booking.date }}</span>
                 </td>
                 <td class="px-8 py-6 text-right">
+                  {% if booking.status == 'confirmed' %}
+                  <form method="POST" action="{{ url_for('admin.complete_booking', booking_id=booking._id) }}" class="mb-2">
+                    <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+                    <button type="submit" class="text-xs font-bold text-green-600 hover:text-green-800">Mark completed</button>
+                  </form>
+                  {% endif %}
                   <form method="POST" action="{{ url_for('admin.delete_booking', booking_id=booking._id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+                    <textarea name="reason" required maxlength="300" rows="2" placeholder="Reason for cancellation" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-xs mb-2"></textarea>
                     <button type="submit" 
                             onclick="return confirm('Delete booking?')"
                             class="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">

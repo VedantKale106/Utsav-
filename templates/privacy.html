@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block meta %}<title>Privacy Policy | {{ site.business_name }}</title>{% endblock %}
+
+{% block content %}
+<section class="pt-32 pb-20 max-w-3xl mx-auto px-6">
+  <p class="text-xs uppercase tracking-widest text-gold-600 font-semibold mb-3">Privacy</p>
+  <h1 class="font-display text-5xl font-bold text-charcoal mb-8">Privacy Policy</h1>
+  <div class="space-y-6 text-sm leading-relaxed text-gray-600">
+    <p>We collect the name, phone number, event date, slot, and event type that you submit so our team can review and manage your booking request.</p>
+    <p>Your information is used for booking communication and is not sold. Access is limited to authorized venue administrators and service providers needed to operate the booking process.</p>
+    <p>Completed, declined, cancelled, and expired requests may be anonymized after the configured retention period. You can contact us at <a class="text-gold-700 underline" href="mailto:{{ site.email }}">{{ site.email }}</a> to ask about your data.</p>
+  </div>
+</section>
+{% endblock %}

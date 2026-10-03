@@ -133,3 +133,49 @@ details summary::-webkit-details-marker { display: none; }
 
 /* ---- Prose nice spacing ---- */
 .prose p { margin-bottom: 0; }
+
+/* ---- Mobile layout safeguards ---- */
+html, body { overflow-x: hidden; }
+img, iframe { max-width: 100%; }
+
+@media (max-width: 640px) {
+  #navbar .max-w-6xl { padding-left: 1rem; padding-right: 1rem; }
+  #navbar .font-display { font-size: 1.35rem; }
+  #mobile-menu ul { padding-left: 1rem; padding-right: 1rem; }
+
+  [data-admin-dashboard] header .max-w-7xl,
+  [data-admin-dashboard] main,
+  [data-admin-settings] .max-w-5xl,
+  [data-admin-rejected] .max-w-7xl {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  [data-admin-dashboard] header { padding-top: 5rem; padding-bottom: 5rem; }
+  [data-admin-dashboard] header h1 { font-size: 2.25rem; line-height: 1.1; }
+  [data-admin-dashboard] header .flex-wrap > a,
+  [data-admin-dashboard] header .flex-wrap > form,
+  [data-admin-dashboard] header .flex-wrap > form button {
+    width: 100%;
+    text-align: center;
+  }
+  [data-admin-dashboard] main { margin-top: -2rem; }
+  [data-admin-dashboard] main > .mb-12,
+  [data-admin-dashboard] main > .mt-20 { margin-bottom: 3rem; margin-top: 3rem; }
+  [data-admin-dashboard] .grid-cols-2 { grid-template-columns: 1fr; }
+  [data-admin-dashboard] table { min-width: 640px; }
+
+  [data-admin-settings] h1 { font-size: 2.25rem; line-height: 1.1; }
+  [data-admin-settings] section { padding: 1rem; }
+  [data-admin-settings] section > div { min-width: 0; }
+  [data-admin-settings] input,
+  [data-admin-settings] textarea { min-width: 0; font-size: 0.9375rem; }
+  [data-admin-settings] .flex.gap-5 { gap: 0.75rem; }
+
+  [data-admin-rejected] h1 { font-size: 2.25rem; line-height: 1.1; }
+  [data-admin-rejected] .flex.items-center.gap-4 { align-items: flex-start; flex-wrap: wrap; }
+  [data-admin-rejected] table { min-width: 680px; }
+
+  .slot-card { min-height: 8rem; }
+  #success-panel { overflow-wrap: anywhere; }
+}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Site Settings | Utsav Banquet Hall</title>
+{% endblock %}
+
+{% block content %}
+<div data-admin-settings class="min-h-screen bg-slate-50 pt-24 pb-16">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-widest text-yellow-600 mb-2">Admin</p>
+        <h1 class="text-4xl font-extrabold text-slate-900">Site Settings</h1>
+        <p class="text-slate-500 mt-2">Update the content your visitors see without editing code.</p>
+      </div>
+      <a href="{{ url_for('admin.dashboard') }}" class="text-sm font-semibold text-slate-600 hover:text-slate-900">Back to dashboard</a>
+    </div>
+
+    {% if error %}<div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm font-semibold">{{ error }}</div>{% endif %}
+    {% if request.args.get('saved') %}<div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm font-semibold">Settings saved successfully.</div>{% endif %}
+
+    <form method="POST" class="space-y-8">
+      <input type="hidden" name="csrf_token" value="{{ session.get('csrf_token', '') }}">
+
+      <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">Business Details</h2>
+        <p class="text-sm text-slate-500 mb-6">These values appear in the navigation, footer, booking page, and map.</p>
+        <div class="grid md:grid-cols-2 gap-5">
+          <label class="text-sm font-semibold text-slate-700">Business name<input name="business_name" value="{{ site.business_name }}" maxlength="100" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+          <label class="text-sm font-semibold text-slate-700">Phone<input name="phone" value="{{ site.phone }}" maxlength="30" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+          <label class="text-sm font-semibold text-slate-700">Email<input type="email" name="email" value="{{ site.email }}" maxlength="120" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+          <label class="text-sm font-semibold text-slate-700">Address<input name="address" value="{{ site.address }}" maxlength="180" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+          <label class="text-sm font-semibold text-slate-700 md:col-span-2">Google Maps embed URL<input type="url" name="map_embed_url" value="{{ site.map_embed_url }}" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">Booking Rules</h2>
+        <p class="text-sm text-slate-500 mb-6">Pending requests reserve a slot until they expire. Add one date per line to block holidays or maintenance days.</p>
+        <div class="grid md:grid-cols-2 gap-5">
+          <label class="text-sm font-semibold text-slate-700">Pending request expiry (hours)<input type="number" name="pending_request_expiry_hours" value="{{ site.pending_request_expiry_hours }}" min="1" max="168" required class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal"></label>
+          <label class="text-sm font-semibold text-slate-700">Blackout dates<textarea name="blackout_dates" rows="4" placeholder="2026-12-25&#10;2027-01-01" class="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 font-normal">{{ site.blackout_dates|join('\n') }}</textarea></label>
+        </div>
+      </section>
+
+      <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">Booking Slots</h2>
+        <p class="text-sm text-slate-500 mb-6">Prices are in Indian rupees. Inactive slots disappear from booking and availability checks.</p>
+        <div class="space-y-6">
+          {% for slot in site.slots %}
+          <div class="rounded-xl border border-slate-200 p-5">
+            <div class="flex flex-wrap gap-4 items-center justify-between mb-4">
+              <h3 class="font-bold text-slate-900">{{ slot.key|replace('_', ' ')|title }}</h3>
+              <div class="flex gap-5 text-sm"><label><input type="checkbox" name="slot_active_{{ slot.key }}" {% if slot.active %}checked{% endif %}> Active</label><label><input type="checkbox" name="slot_featured_{{ slot.key }}" {% if slot.featured %}checked{% endif %}> Featured</label></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-4">
+              <label class="text-sm font-semibold text-slate-700">Label<input name="slot_label_{{ slot.key }}" value="{{ slot.label }}" maxlength="40" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label>
+              <label class="text-sm font-semibold text-slate-700">Time<input name="slot_time_{{ slot.key }}" value="{{ slot.time }}" maxlength="60" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label>
+              <label class="text-sm font-semibold text-slate-700">Price (Rs.)<input type="number" name="slot_price_{{ slot.key }}" value="{{ slot.price }}" min="1" max="10000000" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label>
+              <label class="text-sm font-semibold text-slate-700 md:col-span-3">Description<textarea name="slot_description_{{ slot.key }}" maxlength="240" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal" rows="2">{{ slot.description }}</textarea></label>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 mb-1">Homepage Content</h2>
+        <p class="text-sm text-slate-500 mb-6">Edit the highlight cards and statistics shown on the home page.</p>
+        <div class="space-y-5">
+          {% for item in site.highlights %}
+          <div class="grid md:grid-cols-2 gap-4"><label class="text-sm font-semibold text-slate-700">Highlight {{ loop.index }} title<input name="highlight_title_{{ loop.index0 }}" value="{{ item.title }}" maxlength="60" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label><label class="text-sm font-semibold text-slate-700">Description<input name="highlight_description_{{ loop.index0 }}" value="{{ item.description }}" maxlength="160" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label></div>
+          {% endfor %}
+          <div class="grid md:grid-cols-4 gap-4 pt-4 border-t border-slate-100">
+            {% for stat in site.stats %}
+            <div><label class="text-sm font-semibold text-slate-700">Stat {{ loop.index }} value<input name="stat_value_{{ loop.index0 }}" value="{{ stat.value }}" maxlength="30" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label><label class="block text-sm font-semibold text-slate-700 mt-3">Label<input name="stat_label_{{ loop.index0 }}" value="{{ stat.label }}" maxlength="60" required class="mt-2 w-full rounded-lg border border-slate-200 px-3 py-2 font-normal"></label></div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+
+      <button type="submit" class="w-full md:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl">Save Site Settings</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

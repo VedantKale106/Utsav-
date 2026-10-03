@@ -24,11 +24,11 @@
   <!-- Hero Content -->
   <div class="relative z-10 text-center text-white px-6 max-w-4xl mx-auto animate-fade-in-up">
     <p class="font-display italic text-gold-300 text-lg md:text-xl mb-3 tracking-wide">Welcome to</p>
-    <h1 class="font-display text-6xl md:text-8xl font-bold mb-4 leading-tight">Utsav</h1>
+    <h1 class="font-display text-6xl md:text-8xl font-bold mb-4 leading-tight">{{ site.business_name }}</h1>
     <p class="font-display italic text-xl md:text-2xl text-gold-200 mb-6">Where Every Celebration Becomes a Memory</p>
     <div class="w-16 h-0.5 bg-gold-400 mx-auto mb-8"></div>
     <p class="text-white/80 text-base md:text-lg font-light max-w-xl mx-auto mb-10 leading-relaxed">
-      A premier banquet hall at Satav Chowk, Baramati — crafted for weddings, receptions, and grand celebrations.
+      A premier banquet hall at {{ site.address }} — crafted for weddings, receptions, and grand celebrations.
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a
@@ -60,17 +60,11 @@
   <div class="max-w-6xl mx-auto px-6">
     <p class="text-center text-xs text-gold-500 uppercase tracking-[0.3em] font-semibold mb-12">What We Offer</p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-      {% set highlights = [
-        ("AC Hall", "Centrally air-conditioned hall for all-season comfort"),
-        ("Ample Parking", "Dedicated parking for 200+ vehicles"),
-        ("Decoration", "Professional in-house decoration services"),
-        ("Catering", "Curated menus with customizable catering options"),
-      ] %}
-      {% for title, desc in highlights %}
+      {% for highlight in site.highlights %}
       <div class="reveal text-center group p-6 rounded-2xl hover:bg-gold-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
         <div class="w-10 h-0.5 bg-gold-400 mx-auto mb-5"></div>
-        <h3 class="font-display text-lg font-semibold text-charcoal mb-2 group-hover:text-gold-700 transition-colors">{{ title }}</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">{{ desc }}</p>
+        <h3 class="font-display text-lg font-semibold text-charcoal mb-2 group-hover:text-gold-700 transition-colors">{{ highlight.title }}</h3>
+        <p class="text-sm text-gray-500 leading-relaxed">{{ highlight.description }}</p>
       </div>
       {% endfor %}
     </div>
@@ -99,10 +93,10 @@
       </a>
     </div>
     <div class="reveal grid grid-cols-2 gap-4">
-      {% for stat in [("500+", "Events Hosted"), ("15+", "Years of Excellence"), ("1000", "Guest Capacity"), ("5", "Star Rating")] %}
+      {% for stat in site.stats %}
       <div class="bg-ivory border border-gold-100 rounded-2xl p-6 text-center hover:border-gold-300 transition-colors hover:shadow-md">
-        <p class="font-display text-3xl font-bold text-gold-600 mb-1">{{ stat[0] }}</p>
-        <p class="text-xs text-gray-500 font-medium">{{ stat[1] }}</p>
+        <p class="font-display text-3xl font-bold text-gold-600 mb-1">{{ stat.value }}</p>
+        <p class="text-xs text-gray-500 font-medium">{{ stat.label }}</p>
       </div>
       {% endfor %}
     </div>
@@ -147,22 +141,17 @@
     <p class="text-gray-500 mt-4 text-sm">Choose the slot that fits your celebration. Only 30% advance at booking.</p>
   </div>
   <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 reveal">
-    {% for slot, price, time in [
-      ("Morning", "25,000", "7 AM – 12 PM"),
-      ("Afternoon", "20,000", "12 PM – 5 PM"),
-      ("Evening", "35,000", "5 PM – 11 PM"),
-      ("Full Day", "70,000", "7 AM – 11 PM"),
-    ] %}
-    <div class="border border-gold-200 hover:border-gold-400 rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group {% if slot == 'Evening' %}bg-charcoal text-white border-gold-500{% endif %}">
-      <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if slot == 'Evening' %}text-gold-400{% else %}text-gold-500{% endif %} mb-3">{{ slot }}</p>
-      <p class="font-display text-3xl font-bold {% if slot == 'Evening' %}text-white{% else %}text-charcoal{% endif %} mb-1">
-        <span class="text-lg font-normal">Rs.</span> {{ price }}
+    {% for slot in site.slots if slot.active %}
+    <div class="border border-gold-200 hover:border-gold-400 rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group {% if slot.featured %}bg-charcoal text-white border-gold-500{% endif %}">
+      <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if slot.featured %}text-gold-400{% else %}text-gold-500{% endif %} mb-3">{{ slot.label }}</p>
+      <p class="font-display text-3xl font-bold {% if slot.featured %}text-white{% else %}text-charcoal{% endif %} mb-1">
+        <span class="text-lg font-normal">Rs.</span> {{ "{:,}".format(slot.price) }}
       </p>
-      <p class="text-xs {% if slot == 'Evening' %}text-gray-400{% else %}text-gray-500{% endif %} mb-6">{{ time }}</p>
+      <p class="text-xs {% if slot.featured %}text-gray-400{% else %}text-gray-500{% endif %} mb-6">{{ slot.time }}</p>
       <a
-        href="/booking?slot={{ slot.lower().replace(' ', '_') }}"
+        href="/booking?slot={{ slot.key }}"
         class="block text-xs uppercase tracking-widest py-2.5 px-4 rounded-full font-semibold transition-all duration-300
-               {% if slot == 'Evening' %}bg-gold-500 text-white hover:bg-gold-400{% else %}border border-gold-400 text-gold-600 hover:bg-gold-500 hover:text-white hover:border-gold-500{% endif %}"
+               {% if slot.featured %}bg-gold-500 text-white hover:bg-gold-400{% else %}border border-gold-400 text-gold-600 hover:bg-gold-500 hover:text-white hover:border-gold-500{% endif %}"
       >
         Book This Slot
       </a>
@@ -204,7 +193,7 @@
     <div class="reveal rounded-2xl overflow-hidden shadow-lg border border-gold-100">
       <iframe
         title="Utsav Banquet Hall Location — Satav Chowk, Baramati"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3789.4287447826!2d74.5726!3d18.1522!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc3830b1e4a5555%3A0xa9e6a4d55f1c0d55!2sSatav%20Chowk%2C%20Baramati%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1680000000000!5m2!1sen!2sin"
+        src="{{ site.map_embed_url }}"
         width="100%"
         height="400"
         style="border:0;"

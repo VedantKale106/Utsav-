@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block meta %}<title>{{ code }} | {{ site.business_name }}</title>{% endblock %}
+
+{% block content %}
+<section class="min-h-[60vh] flex items-center justify-center text-center px-6 pt-24">
+  <div>
+    <p class="font-display text-7xl font-bold text-gold-500">{{ code }}</p>
+    <h1 class="font-display text-3xl font-bold text-charcoal mt-4">{{ message }}</h1>
+    <a href="/" class="inline-block mt-8 bg-gold-500 hover:bg-gold-600 text-white px-8 py-3 rounded-full font-semibold">Return Home</a>
+  </div>
+</section>
+{% endblock %}
