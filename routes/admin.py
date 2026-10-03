@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 from werkzeug.security import check_password_hash, generate_password_hash
 from booking_lifecycle import expire_pending_requests, has_reservation, release_slot, reservation_owned, reserve_slot, utc_now
-from site_settings import get_site_settings, save_site_settings
+from site_settings import get_site_settings
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -43,12 +43,15 @@ def customer_whatsapp_url(booking_request, status_message="declined", reason="")
 
     site = get_site_settings()
     admin_phone = site.get("phone", "")
-    outcome = "has been declined" if status_message == "declined" else "has been cancelled"
-    next_step = (
-        "Please contact us if you would like to choose another date or slot."
-        if status_message == "declined"
-        else "Please contact us if you have questions about this cancellation."
-    )
+    if status_message == "accepted":
+        outcome = "has been accepted"
+        next_step = "Our team will contact you shortly with the next steps."
+    elif status_message == "declined":
+        outcome = "has been declined"
+        next_step = "Please contact us if you would like to choose another date or slot."
+    else:
+        outcome = "has been cancelled"
+        next_step = "Please contact us if you have questions about this cancellation."
     message = "\n".join([
         f"Hello {booking_request.get('name', '')},",
         f"This is {site.get('business_name', 'Utsav Banquet Hall')} ({admin_phone}).",
@@ -59,8 +62,37 @@ def customer_whatsapp_url(booking_request, status_message="declined", reason="")
     return f"https://wa.me/{customer_phone}?{urlencode({'text': message})}"
 
 
+def customer_call_url(booking_request):
+    customer_phone = "".join(character for character in booking_request.get("phone", "") if character.isdigit())
+    return f"tel:{customer_phone}" if customer_phone else ""
+
+
+def format_booking_date(value):
+    try:
+        formatted = date_class.fromisoformat(str(value)[:10]).strftime("%d %B %Y")
+        return formatted.lstrip("0")
+    except (TypeError, ValueError):
+        return str(value or "")
+
+
+def booking_request_expired(value):
+    if not value:
+        return False
+    if isinstance(value, str):
+        try:
+            value = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return True
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=timezone.utc)
+    return value <= utc_now()
+
+
 def admin_password_is_valid(password):
-    credentials = get_db()["admin_credentials"].find_one({"_id": "main"})
+    try:
+        credentials = get_db()["admin_credentials"].find_one({"_id": "main"})
+    except Exception:
+        credentials = None
     if credentials and credentials.get("password_hash"):
         return check_password_hash(credentials["password_hash"], password or "")
     stored_hash = os.getenv("ADMIN_PASSWORD_HASH", "")
@@ -129,77 +161,95 @@ def dashboard():
     expire_pending_requests(db)
     requests = list(db["booking_requests"].find({"status": "pending"}).sort("date", 1))
     bookings = list(db["bookings"].find().sort("date", -1))
-    return render_template("admin_dashboard.html", requests=requests, bookings=bookings)
+    return render_template(
+        "admin_dashboard.html",
+        requests=requests,
+        bookings=bookings,
+        format_booking_date=format_booking_date,
+        customer_call_url=customer_call_url,
+        customer_whatsapp_url=customer_whatsapp_url,
+    )
 
 @admin_bp.route("/accept/<req_id>", methods=["POST"])
 def accept_request(req_id):
     if not session.get("admin_logged_in"):
         return redirect(url_for("admin.login"))
-    
-    db = get_db()
-    expire_pending_requests(db)
     request_id = get_object_id(req_id)
     if request_id is None:
         return redirect(url_for("admin.dashboard", error="Invalid request ID."))
-    req = db["booking_requests"].find_one({"_id": request_id, "status": "pending"})
-    if not req:
-        return jsonify({"error": "Request not found"}), 404
-        
-    date_str = req["date"]
-    slot = req["slot"]
-    
-    # check if already booked in bookings collection
-    if slot == "full_day":
-        conflict = db["bookings"].find_one({"date": date_str})
-    else:
-        conflict = db["bookings"].find_one({
-            "date": date_str,
-            "$or": [
-                {"slot": slot},
-                {"slot": "full_day"}
-            ]
-        })
-        
-    if conflict:
-        return redirect(url_for("admin.dashboard", error="This slot is already booked."))
 
-    if req.get("expires_at") and req["expires_at"] <= utc_now():
-        db["booking_requests"].update_one({"_id": request_id}, {"$set": {"status": "expired", "status_updated_at": utc_now()}})
-        release_slot(db, date_str, slot, str(request_id))
-        return redirect(url_for("admin.dashboard", error="This request has expired."))
-
-    if has_reservation(db, date_str, slot) and not reservation_owned(db, date_str, slot, str(request_id)):
-        return redirect(url_for("admin.dashboard", error="This slot is no longer available."))
-    if not has_reservation(db, date_str, slot) and not reserve_slot(db, date_str, slot, str(request_id)):
-        return redirect(url_for("admin.dashboard", error="This slot is no longer available."))
-
-    claimed = db["booking_requests"].update_one(
-        {"_id": request_id, "status": "pending"},
-        {"$set": {"status": "accepted", "status_updated_at": utc_now()}},
-    )
-    if claimed.modified_count != 1:
-        return redirect(url_for("admin.dashboard", error="This request was already processed."))
-
-    # Insert into bookings after claiming the request so two admins cannot approve it twice.
-    booking_doc = {
-        "name": req["name"],
-        "phone": req["phone"],
-        "date": req["date"],
-        "slot": req["slot"],
-        "event_type": req["event_type"],
-        "status": "confirmed",
-        "created_at": req["created_at"],
-        "request_id": str(req["_id"]),
-    }
-    
     try:
-        db["bookings"].insert_one(booking_doc)
-        audit(db, "booking_approved", request_id, {"date": date_str, "slot": slot})
+        db = get_db()
+        expire_pending_requests(db)
+        req = db["booking_requests"].find_one({"_id": request_id, "status": "pending"})
+        if not req:
+            return jsonify({"error": "Request not found"}), 404
+
+        date_str = req.get("date", "")
+        slot = req.get("slot", "")
+        if slot == "full_day":
+            conflict = db["bookings"].find_one({"date": date_str})
+        else:
+            conflict = db["bookings"].find_one({
+                "date": date_str,
+                "$or": [{"slot": slot}, {"slot": "full_day"}],
+            })
+        if conflict:
+            return redirect(url_for("admin.dashboard", error="This slot is already booked."))
+
+        if booking_request_expired(req.get("expires_at")):
+            db["booking_requests"].update_one(
+                {"_id": request_id},
+                {"$set": {"status": "expired", "status_updated_at": utc_now()}},
+            )
+            release_slot(db, date_str, slot, str(request_id))
+            return redirect(url_for("admin.dashboard", error="This request has expired."))
+
+        owns_reservation = reservation_owned(db, date_str, slot, str(request_id))
+        if has_reservation(db, date_str, slot) and not owns_reservation:
+            return redirect(url_for("admin.dashboard", error="This slot is no longer available."))
+        if not owns_reservation and not reserve_slot(db, date_str, slot, str(request_id)):
+            return redirect(url_for("admin.dashboard", error="This slot is no longer available."))
+
+        claimed = db["booking_requests"].update_one(
+            {"_id": request_id, "status": "pending"},
+            {"$set": {"status": "accepted", "status_updated_at": utc_now()}},
+        )
+        if claimed.modified_count != 1:
+            release_slot(db, date_str, slot, str(request_id))
+            return redirect(url_for("admin.dashboard", error="This request was already processed."))
+
+        booking_doc = {
+            "name": req.get("name", ""),
+            "phone": req.get("phone", ""),
+            "date": date_str,
+            "slot": slot,
+            "event_type": req.get("event_type", ""),
+            "status": "confirmed",
+            "created_at": req.get("created_at", utc_now().isoformat()),
+            "request_id": str(request_id),
+        }
+        try:
+            db["bookings"].insert_one(booking_doc)
+        except Exception:
+            db["booking_requests"].update_one({"_id": request_id}, {"$set": {"status": "pending"}})
+            release_slot(db, date_str, slot, str(request_id))
+            return redirect(url_for("admin.dashboard", error="Could not approve this request."))
+
+        try:
+            audit(db, "booking_approved", request_id, {"date": date_str, "slot": slot})
+        except Exception:
+            pass
+        notify_url = customer_whatsapp_url(req, "accepted")
+        call_url = f"tel:{req.get('phone', '')}"
+        return redirect(url_for(
+            "admin.dashboard",
+            msg="Booking approved.",
+            notify_url=notify_url,
+            call_url=call_url,
+        ))
     except Exception:
-        db["booking_requests"].update_one({"_id": request_id}, {"$set": {"status": "pending"}})
-        return redirect(url_for("admin.dashboard", error="Could not approve this request."))
-        
-    return redirect(url_for("admin.dashboard"))
+        return redirect(url_for("admin.dashboard", error="Could not approve this request. Please try again."))
 
 @admin_bp.route("/reject/<req_id>", methods=["POST"])
 def reject_request(req_id):
@@ -306,87 +356,6 @@ def rejected():
     return render_template("admin_rejected.html", requests=requests)
 
 
-@admin_bp.route("/settings", methods=["GET", "POST"])
-def settings():
-    if not session.get("admin_logged_in"):
-        return redirect(url_for("admin.login"))
 
-    current = get_site_settings()
-    if request.method == "POST":
-        updated = {
-            "business_name": request.form.get("business_name", "").strip(),
-            "address": request.form.get("address", "").strip(),
-            "phone": request.form.get("phone", "").strip(),
-            "email": request.form.get("email", "").strip(),
-            "map_embed_url": request.form.get("map_embed_url", "").strip(),
-            "pending_request_expiry_hours": 48,
-            "blackout_dates": [],
-            "slots": [],
-            "highlights": [],
-            "stats": [],
-        }
 
-        if not all(updated[key] for key in ("business_name", "address", "phone", "email")):
-            return render_template("admin_settings.html", site=current, error="Business details cannot be empty.")
-        if not updated["map_embed_url"].startswith("https://www.google.com/maps/embed"):
-            return render_template("admin_settings.html", site=current, error="Use a valid Google Maps embed URL.")
-        try:
-            updated["pending_request_expiry_hours"] = int(request.form.get("pending_request_expiry_hours", "48"))
-        except ValueError:
-            updated["pending_request_expiry_hours"] = 0
-        if not 1 <= updated["pending_request_expiry_hours"] <= 168:
-            return render_template("admin_settings.html", site=current, error="Request expiry must be between 1 and 168 hours.")
-        for raw_date in request.form.get("blackout_dates", "").splitlines():
-            raw_date = raw_date.strip()
-            if not raw_date:
-                continue
-            try:
-                blocked_date = date_class.fromisoformat(raw_date)
-            except ValueError:
-                return render_template("admin_settings.html", site=current, error=f"Invalid blackout date: {raw_date}")
-            if blocked_date >= date_class.today() and raw_date not in updated["blackout_dates"]:
-                updated["blackout_dates"].append(raw_date)
 
-        for slot in current["slots"]:
-            key = slot["key"]
-            try:
-                price = int(request.form.get(f"slot_price_{key}", "0"))
-            except ValueError:
-                price = 0
-            if not 0 < price <= 10000000:
-                return render_template("admin_settings.html", site=current, error="Slot prices must be between Rs. 1 and Rs. 1 crore.")
-            updated["slots"].append({
-                "key": key,
-                "label": request.form.get(f"slot_label_{key}", "").strip()[:40],
-                "time": request.form.get(f"slot_time_{key}", "").strip()[:60],
-                "price": price,
-                "description": request.form.get(f"slot_description_{key}", "").strip()[:240],
-                "featured": request.form.get(f"slot_featured_{key}") == "on",
-                "active": request.form.get(f"slot_active_{key}") == "on",
-            })
-
-        for index, highlight in enumerate(current["highlights"]):
-            updated["highlights"].append({
-                "title": request.form.get(f"highlight_title_{index}", "").strip()[:60],
-                "description": request.form.get(f"highlight_description_{index}", "").strip()[:160],
-            })
-
-        for index, stat in enumerate(current["stats"]):
-            updated["stats"].append({
-                "value": request.form.get(f"stat_value_{index}", "").strip()[:30],
-                "label": request.form.get(f"stat_label_{index}", "").strip()[:60],
-            })
-
-        if any(not item["label"] for item in updated["slots"]):
-            return render_template("admin_settings.html", site=current, error="Every slot needs a label.")
-        if not any(item["active"] for item in updated["slots"]):
-            return render_template("admin_settings.html", site=current, error="At least one booking slot must remain active.")
-
-        try:
-            save_site_settings(updated)
-        except Exception:
-            return render_template("admin_settings.html", site=current, error="Could not save settings. Please try again.")
-        audit(get_db(), "site_settings_updated", details={"blackout_dates": updated["blackout_dates"]})
-        return redirect(url_for("admin.settings", saved="1"))
-
-    return render_template("admin_settings.html", site=current)

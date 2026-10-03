@@ -45,14 +45,14 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-          <a href="/" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            Live Preview
+          <a href="{{ url_for('admin.dashboard') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            Admin Home
+          </a>
+          <a href="/" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-yellow-400 hover:bg-yellow-500/10 transition-all">
+            Check Live Review
           </a>
           <a href="{{ url_for('admin.rejected') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all">
             Archive
-          </a>
-          <a href="{{ url_for('admin.settings') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-yellow-400 hover:bg-yellow-500/10 transition-all">
-            Site Settings
           </a>
           <a href="{{ url_for('admin.change_password') }}" class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             Password
@@ -101,9 +101,14 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             </div>
             <p class="text-sm font-bold text-slate-700">{{ request.args.get('msg') }}</p>
-            {% if request.args.get('notify_url') %}
-            <a href="{{ request.args.get('notify_url') }}" target="_blank" rel="noopener" class="ml-auto bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-xl text-xs font-bold">Notify Customer on WhatsApp</a>
-            {% endif %}
+            <div class="ml-auto flex flex-wrap gap-2">
+              {% if request.args.get('call_url') %}
+              <a href="{{ request.args.get('call_url') }}" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs font-bold">Call Customer</a>
+              {% endif %}
+              {% if request.args.get('notify_url') %}
+              <a href="{{ request.args.get('notify_url') }}" target="_blank" rel="noopener" class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-xl text-xs font-bold">Send WhatsApp</a>
+              {% endif %}
+            </div>
         </div>
         {% endif %}
     </div>
@@ -126,7 +131,7 @@
                 <svg class="w-6 h-6 text-slate-400 group-hover:text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             </div>
             <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-100 px-3 py-1 rounded-full">
-                {{ req.created_at[:10] }}
+                {{ format_booking_date(req.created_at) }}
             </span>
           </div>
 
@@ -136,7 +141,7 @@
           <div class="space-y-3 py-6 border-y border-slate-50 mb-6">
             <div class="flex justify-between items-center text-sm">
               <span class="text-slate-400 font-medium">Event Date</span>
-              <span class="text-slate-900 font-bold">{{ req.date }}</span>
+              <span class="text-slate-900 font-bold">{{ format_booking_date(req.date) }}</span>
             </div>
             <div class="flex justify-between items-center text-sm">
               <span class="text-slate-400 font-medium">Time Slot</span>
@@ -204,6 +209,14 @@
                 <td class="px-8 py-6">
                   <p class="font-bold text-slate-900">{{ booking.name }}</p>
                   <p class="text-slate-400 text-xs font-medium">{{ booking.phone }}</p>
+                  <div class="flex flex-wrap gap-2 mt-3">
+                    {% if customer_call_url(booking) %}
+                    <a href="{{ customer_call_url(booking) }}" class="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Call Customer</a>
+                    {% endif %}
+                    {% if customer_whatsapp_url(booking, 'accepted') %}
+                    <a href="{{ customer_whatsapp_url(booking, 'accepted') }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 bg-green-50 text-green-700 hover:bg-green-100 px-2.5 py-1.5 rounded-lg text-[10px] font-bold">Send WhatsApp</a>
+                    {% endif %}
+                  </div>
                 </td>
                 <td class="px-8 py-6">
                   <div class="flex items-center gap-3">
@@ -215,7 +228,7 @@
                   </div>
                 </td>
                 <td class="px-8 py-6">
-                  <span class="px-4 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg text-xs font-black">{{ booking.date }}</span>
+                  <span class="px-4 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg text-xs font-black">{{ format_booking_date(booking.date) }}</span>
                 </td>
                 <td class="px-8 py-6 text-right">
                   {% if booking.status == 'confirmed' %}

@@ -56,12 +56,15 @@
   <!-- Navigation -->
   <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="/" class="font-display text-2xl text-gold-600 tracking-wide">
-        {{ site.business_name }}
+      <a href="{{ url_for('admin.dashboard') if request.path.startswith('/admin') and session.get('admin_logged_in') else url_for('admin.login') if request.path.startswith('/admin') else '/' }}" class="font-display text-2xl text-gold-600 tracking-wide">
+        {{ 'Admin Portal' if request.path.startswith('/admin') else site.business_name }}
       </a>
 
       <!-- Desktop Menu -->
       <ul class="hidden md:flex items-center gap-8 text-sm font-body font-medium">
+        {% if request.path.startswith('/admin') %}
+        <li><a href="{{ url_for('admin.dashboard') }}" class="nav-link">Admin Home</a></li>
+        {% else %}
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/about" class="nav-link">About</a></li>
         <li><a href="/gallery" class="nav-link">Gallery</a></li>
@@ -71,6 +74,7 @@
             Book Now
           </a>
         </li>
+        {% endif %}
       </ul>
 
       <!-- Mobile Hamburger -->
@@ -84,6 +88,9 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-sm border-t border-gold-100">
       <ul class="flex flex-col px-6 py-4 gap-4 text-sm font-medium">
+        {% if request.path.startswith('/admin') %}
+        <li><a href="{{ url_for('admin.dashboard') }}" class="block py-2 nav-link">Admin Home</a></li>
+        {% else %}
         <li><a href="/" class="block py-2 nav-link">Home</a></li>
         <li><a href="/about" class="block py-2 nav-link">About</a></li>
         <li><a href="/gallery" class="block py-2 nav-link">Gallery</a></li>
@@ -93,6 +100,7 @@
             Book Now
           </a>
         </li>
+        {% endif %}
       </ul>
     </div>
   </nav>

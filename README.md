@@ -4,10 +4,10 @@ Flask booking application for Utsav Banquet Hall. Customers can check slot avail
 
 ## Features
 
-- MongoDB-backed booking requests, bookings, settings, reservations, and audit logs
+- MongoDB-backed booking requests, bookings, reservations, and audit logs
 - Atomic per-date reservation protection for partial and full-day slots
 - Duplicate-request detection and configurable pending-request expiry
-- Admin-managed prices, timings, blackout dates, contact details, and homepage content
+- Site content and booking rules are kept in `site_settings.json`
 - Admin authentication with hashed passwords, CSRF protection, rate limiting, and session expiry
 - WhatsApp message links for booking requests, declines, and cancellations
 - Privacy consent, retention anonymization, friendly error pages, and responsive layouts
@@ -50,7 +50,6 @@ For Vercel, configure the same values in Project Settings > Environment Variable
 
 Open `/admin/login` and then use:
 
-- `/admin/settings` to edit business information, prices, timings, blackout dates, expiry rules, highlights, and statistics
 - `/admin/change-password` to change the administrator password
 
 Admin actions are recorded in MongoDB audit logs. Decline and cancellation actions require a reason.

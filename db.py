@@ -39,7 +39,8 @@ def get_db():
 
 
 def anonymize_old_data(db=None):
-    db = db or get_db()
+    if db is None:
+        db = get_db()
     retention_days = int(os.getenv("DATA_RETENTION_DAYS", "730"))
     cutoff = datetime.now(timezone.utc) - timedelta(days=max(30, retention_days))
     db["booking_requests"].update_many(
