@@ -17,7 +17,7 @@ def check_availability():
 
     slot_settings = slots_by_key(get_site_settings())
     if slot not in slot_settings:
-        return jsonify({"error": "Invalid slot. Choose morning, afternoon, evening, or full_day."}), 400
+        return jsonify({"error": "Invalid slot. Choose morning, evening, or full_day."}), 400
 
     if not date_str:
         return jsonify({"error": "Date is required."}), 400
@@ -27,8 +27,10 @@ def check_availability():
     except ValueError:
         return jsonify({"error": "Invalid date format. Use YYYY-MM-DD."}), 400
 
-    if booking_date < date_class.today():
-        return jsonify({"error": "Bookings cannot be made for past dates."}), 400
+    bookings_start = date_class.fromisoformat(get_site_settings().get("bookings_start_date", "2026-12-15"))
+    min_date = max(date_class.today(), bookings_start)
+    if booking_date < min_date:
+        return jsonify({"error": f"Bookings start from {bookings_start.strftime('%d %B %Y')}."}), 400
 
     try:
         db = get_db()

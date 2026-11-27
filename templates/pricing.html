@@ -1,60 +1,66 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Pricing — Utsav Banquet Hall, Baramati</title>
-<meta name="description" content="Transparent pricing at {{ site.business_name }}. Check current event slot prices and availability." />
+<title>Pricing — Utsav Banquet Hall</title>
+<meta name="description" content="Transparent pricing at {{ site.business_name }}. Morning (9 AM - 1 PM) &amp; Evening (4 PM - 9 PM) at Rs. 15,000 for first 100 bookings (Rs. 20,000 thereafter), Full Day Rs. 25,000, excluding GST." />
 {% endblock %}
 
 {% block content %}
 
 <!-- Page Header -->
-<div class="pt-32 pb-16 bg-charcoal text-center">
-  <p class="text-xs text-gold-400 uppercase tracking-[0.3em] font-semibold mb-3">No Hidden Charges</p>
-  <h1 class="font-display text-5xl md:text-6xl text-white font-bold">Our Pricing</h1>
-  <div class="w-16 h-0.5 bg-gold-500 mx-auto mt-6"></div>
+<div class="pt-32 pb-16 bg-burgundy-900 border-b border-gold-400/20 text-center">
+  <p class="text-xs text-gold-300 uppercase tracking-[0.3em] font-semibold mb-3">No Hidden Charges</p>
+  <h1 class="font-display text-5xl md:text-6xl text-ivory font-bold">Our Pricing</h1>
+  <div class="w-16 h-0.5 bg-gold-400 mx-auto mt-6"></div>
 </div>
 
 <!-- Pricing Cards -->
 <section class="py-24 max-w-6xl mx-auto px-6">
   <div class="text-center mb-14 reveal">
-    <p class="text-gray-500 text-sm max-w-xl mx-auto">
-      Every slot includes full access to our AC hall, parking, and basic setup. Submit a request to confirm current availability and terms.
+    <p class="text-gray-500 text-sm max-w-2xl mx-auto">
+      Bookings start from <strong>15 December 2026</strong>. Morning &amp; Evening slots are <strong>Rs. 15,000</strong> for the first 100 bookings (Rs. 20,000 thereafter), and Full Day is <strong>Rs. 25,000</strong>. All prices are <strong>excluding GST</strong>, which will be charged separately.
     </p>
   </div>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 reveal">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
     {% for item in site.slots if item.active %}
     {% set is_featured = item.featured %}
     <div class="relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl
-      {% if is_featured %}bg-charcoal text-white{% else %}bg-white border border-gold-100 hover:border-gold-300{% endif %}">
+      {% if is_featured %}bg-burgundy-900 text-ivory border border-gold-400{% else %}bg-white border border-gold-200 hover:border-gold-400{% endif %}">
       {% if is_featured %}
-      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-400 to-gold-600"></div>
-      <div class="absolute top-4 right-4 bg-gold-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">Popular</div>
+      <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-300 via-gold-500 to-gold-300"></div>
+      <div class="absolute top-4 right-4 gold-pill-btn text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Popular</div>
       {% endif %}
 
       <div class="p-8 flex-1">
-        <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if is_featured %}text-gold-400{% else %}text-gold-500{% endif %} mb-4">{{ item.label }}</p>
+        <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if is_featured %}text-gold-300{% else %}text-burgundy-700{% endif %} mb-4">{{ item.label }}</p>
         <div class="mb-3">
-          <span class="font-display text-4xl font-bold {% if is_featured %}text-white{% else %}text-charcoal{% endif %}">
+          <span class="font-display text-4xl font-bold {% if is_featured %}text-gold-200{% else %}text-burgundy-950{% endif %}">
             Rs. {{ "{:,}".format(item.price) }}
           </span>
         </div>
-        <p class="text-xs text-gray-400 mb-1">{{ item.time }}</p>
-        <div class="w-8 h-0.5 {% if is_featured %}bg-gold-500{% else %}bg-gold-200{% endif %} my-5"></div>
-        <p class="text-sm {% if is_featured %}text-gray-300{% else %}text-gray-500{% endif %} leading-relaxed mb-8">{{ item.description }}</p>
+        <p class="text-xs {% if is_featured %}text-gold-100/70{% else %}text-gray-400{% endif %} mb-1">{{ item.time }}</p>
+        <div class="w-8 h-0.5 {% if is_featured %}bg-gold-400{% else %}bg-gold-200{% endif %} my-5"></div>
+        <p class="text-sm {% if is_featured %}text-gold-100/80{% else %}text-gray-500{% endif %} leading-relaxed mb-8">{{ item.description }}</p>
 
         <!-- Current rate -->
-        <div class="{% if is_featured %}bg-white/10{% else %}bg-gold-50{% endif %} rounded-xl p-4 mb-6">
-          <p class="text-xs {% if is_featured %}text-gold-300{% else %}text-gold-600{% endif %} font-semibold mb-1">Current rate</p>
-          <p class="font-display text-xl font-bold {% if is_featured %}text-gold-400{% else %}text-gold-700{% endif %}">Rs. {{ "{:,}".format(item.price) }}</p>
-          <p class="text-xs text-gray-400">Confirmed after request review</p>
+        <div class="{% if is_featured %}bg-burgundy-950/60 border border-gold-400/25{% else %}bg-ivory border border-gold-100{% endif %} rounded-xl p-4 mb-6">
+          <p class="text-xs {% if is_featured %}text-gold-300{% else %}text-burgundy-700{% endif %} font-semibold mb-1">
+            {% if item.regular_price %}First 100 Bookings{% else %}Full Day Rate{% endif %}
+          </p>
+          <p class="font-display text-xl font-bold {% if is_featured %}text-gold-200{% else %}text-burgundy-900{% endif %}">
+            Rs. {{ "{:,}".format(item.price) }} <span class="text-xs font-normal">+ GST</span>
+          </p>
+          <p class="text-xs {% if is_featured %}text-gold-100/60{% else %}text-gray-400{% endif %}">
+            {% if item.regular_price %}Rs. {{ "{:,}".format(item.regular_price) }} + GST after 100 bookings{% else %}GST charged separately{% endif %}
+          </p>
         </div>
 
         <!-- Inclusions -->
         <ul class="space-y-2 mb-8">
-          {% for feature in ["AC Hall Access", "Parking for 200+ vehicles", "Basic Stage Setup", "In-house Changing Room"] %}
-          <li class="flex items-center gap-2 text-xs {% if is_featured %}text-gray-300{% else %}text-gray-500{% endif %}">
-            <svg class="w-3.5 h-3.5 text-gold-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {% for feature in ["AC Hall (200 Guest Capacity)", "50 One-Time Dining Area", "Parking: 10 4W & 50 2W", "Chairs, Tables & Stage"] %}
+          <li class="flex items-center gap-2 text-xs {% if is_featured %}text-gold-100/85{% else %}text-gray-500{% endif %}">
+            <svg class="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
             </svg>
             {{ feature }}
@@ -67,7 +73,7 @@
         <a
           href="/booking?slot={{ item.key }}"
           class="block text-center text-sm font-semibold tracking-wider uppercase py-3.5 rounded-full transition-all duration-300
-            {% if is_featured %}bg-gold-500 text-white hover:bg-gold-400{% else %}border-2 border-gold-400 text-gold-600 hover:bg-gold-500 hover:text-white hover:border-gold-500{% endif %}"
+            {% if is_featured %}gold-pill-btn{% else %}border-2 border-gold-400 text-burgundy-800 hover:bg-burgundy-900 hover:text-gold-200 hover:border-burgundy-900{% endif %}"
         >
           Book This Slot
         </a>
@@ -85,11 +91,11 @@
     </div>
     <div class="space-y-4">
       {% for q, a in [
-        ("Is the advance amount refundable?", "The 30% advance is non-refundable. However, in case of genuine emergencies, we offer one free date transfer with at least 15 days' notice."),
-        ("What does the price include?", "All slots include AC hall access, parking, basic stage setup, and dressing room. Decoration, catering, and sound systems can be added separately."),
-        ("How do I confirm my booking?", "Submit the online booking form. Our team reviews availability and contacts you to confirm the event and payment terms."),
-        ("Can I visit the hall before booking?", "Absolutely. Call us to schedule a free walkthrough of the venue at any time convenient to you."),
-        ("Are outside caterers allowed?", "Yes, outside caterers are permitted subject to a nominal kitchen usage fee."),
+        ("Are the listed prices inclusive of GST?", "No. All prices are excluding GST, which will be charged separately."),
+        ("How does the Rs. 15,000 introductory slot pricing work?", "Morning (9 AM - 1 PM) and Evening (4 PM - 9 PM) slots are Rs. 15,000 + GST for the first 100 bookings. After the first 100 bookings, the rate is Rs. 20,000 + GST per slot. Full Day (9 AM - 9 PM) is Rs. 25,000 + GST."),
+        ("What is included in the booking?", "We only provide the AC hall (200 guest capacity, 50 one-time dining), parking (up to 10 four-wheelers and 50 two-wheelers), chairs, tables, and stage."),
+        ("Do you provide catering, decoration, or cooking facilities?", "No. There is no catering or decoration from our side, and no cooking is allowed on the premises."),
+        ("When do bookings start?", "Bookings start from 15 December 2026."),
       ] %}
       <details class="group border border-gold-100 rounded-xl overflow-hidden">
         <summary class="flex justify-between items-center px-6 py-4 cursor-pointer font-medium text-sm text-charcoal hover:bg-gold-50 transition-colors list-none">

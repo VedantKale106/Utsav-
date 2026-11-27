@@ -16,9 +16,11 @@
   const dateInput    = document.getElementById("date");
   const slotInputs   = document.querySelectorAll('input[name="slot"]');
 
-  // ---- Set minimum date to today ----
+  // ---- Set minimum date to bookings start date (15 Dec 2026) or today ----
   const today = new Date().toISOString().split("T")[0];
-  if (dateInput) dateInput.setAttribute("min", today);
+  const bookingsStart = "2026-12-15";
+  const minDate = today > bookingsStart ? today : bookingsStart;
+  if (dateInput) dateInput.setAttribute("min", minDate);
 
   // ---- Highlight selected slot card ----
   slotCards.forEach(function (card) {

@@ -1,70 +1,86 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Utsav Banquet Hall — Weddings &amp; Events in Baramati</title>
-<meta name="description" content="Utsav Banquet Hall in Baramati offers a premium venue for weddings, receptions, birthdays, and corporate events. AC hall, ample parking, and professional decoration." />
+<title>Utsav Banquet Hall — Engagements, Birthdays &amp; Events</title>
+<meta name="description" content="Utsav Banquet Hall offers an AC hall for engagements, birthdays, corporate events, and social functions. 200 guest capacity, 50 one-time dining, parking for 10 four-wheelers &amp; 50 two-wheelers." />
 {% endblock %}
 
 {% block content %}
 
 <!-- ============================================================
-     HERO
+     HERO (Burgundy & Gold Theme)
 ============================================================ -->
-<section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-  <!-- Background Image -->
-  <div class="absolute inset-0">
-    <img
-      src="/static/images/hero.png"
-      alt="Grand banquet hall interior at Utsav, Baramati"
-      class="w-full h-full object-cover"
-    />
-    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
-  </div>
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden bg-burgundy-950 pt-24 pb-16">
+  <!-- Rich Burgundy Radial Glow -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 28%, rgba(127, 35, 52, 0.45) 0%, rgba(59, 8, 16, 0.92) 55%, #280409 100%);"></div>
 
   <!-- Hero Content -->
-  <div class="relative z-10 text-center text-white px-6 max-w-4xl mx-auto animate-fade-in-up">
-    <p class="font-display italic text-gold-300 text-lg md:text-xl mb-3 tracking-wide">Welcome to</p>
-    <h1 class="font-display text-6xl md:text-8xl font-bold mb-4 leading-tight">{{ site.business_name }}</h1>
-    <p class="font-display italic text-xl md:text-2xl text-gold-200 mb-6">Where Every Celebration Becomes a Memory</p>
-    <div class="w-16 h-0.5 bg-gold-400 mx-auto mb-8"></div>
-    <p class="text-white/80 text-base md:text-lg font-light max-w-xl mx-auto mb-10 leading-relaxed">
-      A premier banquet hall at {{ site.address }} — crafted for weddings, receptions, and grand celebrations.
+  <div class="relative z-10 text-center text-ivory px-6 max-w-5xl mx-auto animate-fade-in-up">
+    <!-- Crest Logo -->
+    <div class="flex flex-col items-center mb-5">
+      <svg class="w-16 h-16 md:w-20 md:h-20 text-gold-300 mb-3" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="32" cy="32" r="29" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="32" cy="32" r="25.5" stroke="currentColor" stroke-width="0.75" stroke-opacity="0.75"/>
+        <path d="M32 13C34.2 17.5 34.2 21.5 32 25.5C29.8 21.5 29.8 17.5 32 13Z" fill="currentColor"/>
+        <path d="M32 25.5C35.8 22.8 39 20.8 41.2 17.5C39.2 22.2 36.2 25 32 26.8C27.8 25 24.8 22.2 22.8 17.5C25 20.8 28.2 22.8 32 25.5Z" fill="currentColor"/>
+        <path d="M15 41L23 30L32 37L41 30L49 41H15Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M23 30V41M32 37V41M41 30V41" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M13 43.5H51" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <h1 class="font-display text-4xl sm:text-5xl md:text-6xl font-semibold tracking-[0.2em] text-gold-300 uppercase leading-tight">{{ site.business_name }}</h1>
+      <div class="flex items-center gap-3 mt-1.5 text-gold-300/85">
+        <span class="w-8 h-px bg-gold-400/70"></span>
+        <span class="text-xs tracking-[0.35em] uppercase">Banquet Hall &bull; Garden Lawn</span>
+        <span class="w-8 h-px bg-gold-400/70"></span>
+      </div>
+    </div>
+
+    <p class="font-display italic text-lg md:text-2xl text-gold-100 mb-7">Where Every Celebration Becomes a Memory</p>
+
+    <!-- Double-Gold-Framed Venue Image -->
+    <div class="gold-double-frame max-w-3xl mx-auto mb-8 bg-burgundy-900">
+      <img
+        src="/static/images/hero.jpeg"
+        alt="Grand banquet hall interior at Utsav, Baramati"
+        class="w-full h-64 sm:h-80 md:h-[380px] object-cover block"
+      />
+    </div>
+
+    <p class="text-gold-100/80 text-sm md:text-base font-light max-w-xl mx-auto mb-3 leading-relaxed">
+      AC Banquet Hall for Engagements, Birthdays, Corporate Events &amp; Social Functions &bull; 200 Guests (50 One-Time Dining).
+    </p>
+    <p class="text-xs uppercase tracking-[0.25em] text-gold-300 font-semibold mb-8">
+      Bookings Start From 15 December 2026
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a
         href="/booking"
-        class="bg-gold-500 hover:bg-gold-600 text-white px-10 py-4 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+        class="gold-pill-btn px-10 py-3.5 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase inline-block"
       >
         Book Your Date
       </a>
       <a
         href="/gallery"
-        class="border border-white/50 hover:border-gold-400 hover:text-gold-300 text-white px-10 py-4 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300"
+        class="border border-gold-400/70 hover:border-gold-300 hover:bg-gold-400/10 text-gold-200 px-10 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-widest uppercase transition-all duration-300"
       >
         View Gallery
       </a>
     </div>
-  </div>
-
-  <!-- Scroll indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50">
-    <span class="text-xs tracking-widest uppercase">Scroll</span>
-    <div class="w-0.5 h-8 bg-white/30 scroll-line"></div>
   </div>
 </section>
 
 <!-- ============================================================
      HIGHLIGHTS STRIP
 ============================================================ -->
-<section class="py-16 bg-white border-y border-gold-100">
+<section class="py-16 bg-white border-y border-gold-200/70">
   <div class="max-w-6xl mx-auto px-6">
-    <p class="text-center text-xs text-gold-500 uppercase tracking-[0.3em] font-semibold mb-12">What We Offer</p>
+    <p class="text-center text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-12">What We Offer</p>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
       {% for highlight in site.highlights %}
-      <div class="reveal text-center group p-6 rounded-2xl hover:bg-gold-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      <div class="reveal text-center group p-6 rounded-2xl border border-transparent hover:border-gold-200 hover:bg-ivory transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
         <div class="w-10 h-0.5 bg-gold-400 mx-auto mb-5"></div>
-        <h3 class="font-display text-lg font-semibold text-charcoal mb-2 group-hover:text-gold-700 transition-colors">{{ highlight.title }}</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">{{ highlight.description }}</p>
+        <h3 class="font-display text-lg font-semibold text-burgundy-900 mb-2 group-hover:text-burgundy-700 transition-colors">{{ highlight.title }}</h3>
+        <p class="text-sm text-gray-600 leading-relaxed">{{ highlight.description }}</p>
       </div>
       {% endfor %}
     </div>
@@ -77,15 +93,15 @@
 <section class="py-24 max-w-6xl mx-auto px-6">
   <div class="grid md:grid-cols-2 gap-16 items-center">
     <div class="reveal">
-      <p class="text-xs text-gold-500 uppercase tracking-[0.3em] font-semibold mb-4">Our Story</p>
-      <h2 class="font-display text-4xl md:text-5xl font-bold text-charcoal leading-tight mb-6">
-        A Legacy of<br /><em class="text-gold-600 not-italic">Grand Celebrations</em>
+      <p class="text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-4">Our Story</p>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-burgundy-950 leading-tight mb-6">
+        Designed for<br /><em class="text-gold-600 not-italic">Grand Celebrations</em>
       </h2>
       <div class="w-12 h-0.5 bg-gold-400 mb-6"></div>
       <p class="text-gray-600 leading-relaxed mb-6 text-sm md:text-base">
-        Nestled in the heart of Baramati at Satav Chowk, Utsav has been the chosen venue for families who believe their celebrations deserve perfection. From intimate gatherings to grand weddings, we bring your vision to life.
+        Utsav Banquet Hall offers a centrally air-conditioned space for up to 200 guests with 50 one-time dining capacity. We provide the AC hall, chairs, tables, stage, and parking for up to 10 four-wheelers and 50 two-wheelers. Note: no catering or decoration is provided from our side, and no cooking is allowed.
       </p>
-      <a href="/about" class="inline-flex items-center gap-2 text-gold-600 font-semibold text-sm hover:gap-4 transition-all duration-300">
+      <a href="/about" class="inline-flex items-center gap-2 text-burgundy-800 font-semibold text-sm hover:text-gold-700 hover:gap-4 transition-all duration-300">
         Our Full Story
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -94,8 +110,8 @@
     </div>
     <div class="reveal grid grid-cols-2 gap-4">
       {% for stat in site.stats %}
-      <div class="bg-ivory border border-gold-100 rounded-2xl p-6 text-center hover:border-gold-300 transition-colors hover:shadow-md">
-        <p class="font-display text-3xl font-bold text-gold-600 mb-1">{{ stat.value }}</p>
+      <div class="bg-white border border-gold-200 rounded-2xl p-6 text-center hover:border-gold-400 transition-colors hover:shadow-md">
+        <p class="font-display text-3xl font-bold text-burgundy-800 mb-1">{{ stat.value }}</p>
         <p class="text-xs text-gray-500 font-medium">{{ stat.label }}</p>
       </div>
       {% endfor %}
@@ -106,25 +122,25 @@
 <!-- ============================================================
      GALLERY TEASER
 ============================================================ -->
-<section class="py-24 bg-charcoal">
+<section class="py-24 bg-burgundy-900 border-y border-gold-400/20">
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-14 reveal">
-      <p class="text-xs text-gold-400 uppercase tracking-[0.3em] font-semibold mb-3">Our Venue</p>
-      <h2 class="font-display text-4xl md:text-5xl text-white font-bold">A Glimpse of Elegance</h2>
+      <p class="text-xs text-gold-300 uppercase tracking-[0.3em] font-semibold mb-3">Our Venue</p>
+      <h2 class="font-display text-4xl md:text-5xl text-ivory font-bold">A Glimpse of Elegance</h2>
     </div>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 reveal">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-5 reveal">
       {% for i in range(1, 4) %}
-      <div class="overflow-hidden rounded-xl group cursor-pointer">
+      <div class="gold-double-frame bg-burgundy-950 overflow-hidden group cursor-pointer">
         <img
           src="/static/images/gallery{{ i }}.png"
           alt="Gallery image {{ i }} — Utsav Banquet Hall"
-          class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+          class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500 block"
         />
       </div>
       {% endfor %}
     </div>
-    <div class="text-center mt-10 reveal">
-      <a href="/gallery" class="border border-gold-400 text-gold-400 hover:bg-gold-500 hover:text-white px-10 py-3.5 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300">
+    <div class="text-center mt-12 reveal">
+      <a href="/gallery" class="border border-gold-400 text-gold-300 hover:bg-gold-400 hover:text-burgundy-950 px-10 py-3.5 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300 inline-block">
         View Full Gallery
       </a>
     </div>
@@ -136,22 +152,29 @@
 ============================================================ -->
 <section class="py-24 max-w-6xl mx-auto px-6">
   <div class="text-center mb-14 reveal">
-    <p class="text-xs text-gold-500 uppercase tracking-[0.3em] font-semibold mb-3">Transparent Pricing</p>
-    <h2 class="font-display text-4xl md:text-5xl font-bold text-charcoal">Simple &amp; Clear</h2>
-    <p class="text-gray-500 mt-4 text-sm">Choose the slot that fits your celebration. Only 30% advance at booking.</p>
+    <p class="text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-3">Transparent Pricing</p>
+    <h2 class="font-display text-4xl md:text-5xl font-bold text-burgundy-950">Simple &amp; Clear</h2>
+    <p class="text-gray-500 mt-4 text-sm max-w-2xl mx-auto">
+      Rs. 15,000 per slot for the first 100 bookings (Rs. 20,000 thereafter). Full Day at Rs. 25,000. All prices are excluding GST, which will be charged separately.
+    </p>
   </div>
-  <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 reveal">
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 reveal">
     {% for slot in site.slots if slot.active %}
-    <div class="border border-gold-200 hover:border-gold-400 rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group {% if slot.featured %}bg-charcoal text-white border-gold-500{% endif %}">
-      <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if slot.featured %}text-gold-400{% else %}text-gold-500{% endif %} mb-3">{{ slot.label }}</p>
-      <p class="font-display text-3xl font-bold {% if slot.featured %}text-white{% else %}text-charcoal{% endif %} mb-1">
-        <span class="text-lg font-normal">Rs.</span> {{ "{:,}".format(slot.price) }}
+    <div class="border rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group {% if slot.featured %}bg-burgundy-900 text-ivory border-gold-400 shadow-lg{% else %}bg-white border-gold-200 hover:border-gold-400{% endif %}">
+      <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if slot.featured %}text-gold-300{% else %}text-burgundy-700{% endif %} mb-3">{{ slot.label }}</p>
+      <p class="font-display text-3xl font-bold {% if slot.featured %}text-gold-200{% else %}text-burgundy-950{% endif %} mb-1">
+        <span class="text-lg font-normal">Rs.</span> {{ "{:,}".format(slot.price) }} <span class="text-xs font-normal opacity-80">+ GST</span>
       </p>
-      <p class="text-xs {% if slot.featured %}text-gray-400{% else %}text-gray-500{% endif %} mb-6">{{ slot.time }}</p>
+      <p class="text-xs {% if slot.featured %}text-gold-100/70{% else %}text-gray-500{% endif %} mb-2">{{ slot.time }}</p>
+      {% if slot.regular_price %}
+      <p class="text-[11px] {% if slot.featured %}text-gold-300/80{% else %}text-burgundy-700/80{% endif %} mb-5">First 100 bookings (Reg. Rs. {{ "{:,}".format(slot.regular_price) }})</p>
+      {% else %}
+      <p class="text-[11px] {% if slot.featured %}text-gold-300/80{% else %}text-burgundy-700/80{% endif %} mb-5">Complete Day Access</p>
+      {% endif %}
       <a
         href="/booking?slot={{ slot.key }}"
         class="block text-xs uppercase tracking-widest py-2.5 px-4 rounded-full font-semibold transition-all duration-300
-               {% if slot.featured %}bg-gold-500 text-white hover:bg-gold-400{% else %}border border-gold-400 text-gold-600 hover:bg-gold-500 hover:text-white hover:border-gold-500{% endif %}"
+               {% if slot.featured %}gold-pill-btn{% else %}border border-gold-400 text-burgundy-800 hover:bg-burgundy-900 hover:text-gold-200 hover:border-burgundy-900{% endif %}"
       >
         Book This Slot
       </a>
@@ -163,19 +186,19 @@
 <!-- ============================================================
      CTA BANNER
 ============================================================ -->
-<section class="py-24 bg-gradient-to-r from-gold-600 to-gold-500 relative overflow-hidden">
+<section class="py-24 bg-gradient-to-r from-burgundy-950 via-burgundy-900 to-burgundy-800 relative overflow-hidden border-y border-gold-400/25">
   <div class="absolute inset-0 opacity-10">
-    <div class="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-    <div class="absolute bottom-0 right-0 w-64 h-64 bg-white rounded-full translate-x-1/2 translate-y-1/2"></div>
+    <div class="absolute top-0 left-0 w-96 h-96 bg-gold-300 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-64 h-64 bg-gold-300 rounded-full translate-x-1/2 translate-y-1/2"></div>
   </div>
   <div class="relative max-w-3xl mx-auto px-6 text-center reveal">
-    <h2 class="font-display text-4xl md:text-5xl text-white font-bold mb-4">
+    <h2 class="font-display text-4xl md:text-5xl text-gold-200 font-bold mb-4">
       Your Perfect Day Begins Here
     </h2>
-    <p class="text-white/80 mb-10 text-sm leading-relaxed">
-      Seats fill up fast — especially for weekends and festive dates. Secure your slot with just 30% advance.
+    <p class="text-gold-100/80 mb-10 text-sm leading-relaxed">
+      Bookings open from 15 December 2026. Lock in the introductory Rs. 15,000 per slot rate (first 100 bookings, excluding GST).
     </p>
-    <a href="/booking" class="bg-white text-gold-700 hover:bg-ivory px-12 py-4 rounded-full text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 inline-block">
+    <a href="/booking" class="gold-pill-btn px-12 py-4 rounded-full text-sm font-bold tracking-wider uppercase inline-block">
       Check Availability Now
     </a>
   </div>
@@ -187,20 +210,25 @@
 <section class="py-16 bg-white">
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
-      <p class="text-xs text-gold-500 uppercase tracking-[0.3em] font-semibold mb-2">Find Us</p>
-      <h2 class="font-display text-3xl font-bold text-charcoal">Satav Chowk, Baramati</h2>
+      <p class="text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-2">Find Us</p>
+      <h2 class="font-display text-3xl font-bold text-burgundy-950">Venue Location</h2>
     </div>
-    <div class="reveal rounded-2xl overflow-hidden shadow-lg border border-gold-100">
-      <iframe
-        title="Utsav Banquet Hall Location — Satav Chowk, Baramati"
-        src="{{ site.map_embed_url }}"
-        width="100%"
-        height="400"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
+    <div class="reveal rounded-2xl bg-burgundy-900 border border-gold-400/40 p-10 text-center shadow-lg">
+      <p class="text-gold-200 font-display text-2xl font-semibold mb-3">Utsav Banquet Hall</p>
+      <p class="text-gold-100/80 text-sm max-w-lg mx-auto mb-6">
+        Open our exact location pin on Google Maps for directions and parking access (up to 10 four-wheelers &amp; 50 two-wheelers).
+      </p>
+      <a
+        href="{{ site.map_url }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="gold-pill-btn px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest inline-flex items-center gap-2"
+      >
+        Open in Google Maps
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3h7m0 0v7m0-7L10 14"/>
+        </svg>
+      </a>
     </div>
   </div>
 </section>

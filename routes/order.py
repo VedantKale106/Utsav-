@@ -42,8 +42,10 @@ def create_booking_request():
     except ValueError:
         return jsonify({"error": "Invalid date format."}), 400
 
-    if booking_date < date_class.today():
-        return jsonify({"error": "Cannot book for past dates."}), 400
+    bookings_start = date_class.fromisoformat(get_site_settings().get("bookings_start_date", "2026-12-15"))
+    min_date = max(date_class.today(), bookings_start)
+    if booking_date < min_date:
+        return jsonify({"error": f"Bookings start from {bookings_start.strftime('%d %B %Y')}."}), 400
 
     # --- Re-check availability (atomic guard before creating request) ---
     try:
