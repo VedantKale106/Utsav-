@@ -1,13 +1,252 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Booking Terms &amp; Policy — {{ site.business_name }}</title>
+<title>{{ 'आरक्षणाचे नियम व अटी' if lang == 'mr' else 'Booking Terms & Policy' }} — {{ site.business_name }}</title>
 <meta name="description" content="Official booking terms, venue rules, slots, rent, security deposit, cancellation policy, and penalties for Utsav Banquet Hall, Baramati." />
 {% endblock %}
 
 {% block content %}
 
-<!-- Page Header -->
+{% if lang == 'mr' %}
+<!-- ==================== MARATHI POLICY (Utsav_Banquet_Niyam_Marathi.pdf) ==================== -->
+<div class="pt-32 pb-16 bg-burgundy-900 border-b border-gold-400/20 text-center px-6">
+  <p class="text-xs text-gold-300 uppercase tracking-[0.3em] font-semibold mb-3">दिनांक Dec 15, 2026 पासून लागू</p>
+  <h1 class="font-display text-4xl md:text-6xl text-ivory font-bold">उत्सव बँक्वेट – आरक्षणाचे नियम व अटी</h1>
+  <p class="text-gold-200/80 font-display italic text-lg mt-3">जिथे प्रत्येक सोहळा होतो एक उत्सव.</p>
+  <div class="w-16 h-0.5 bg-gold-400 mx-auto mt-6"></div>
+</div>
+
+<section class="py-16 max-w-4xl mx-auto px-6 space-y-12 text-sm text-gray-700 leading-relaxed">
+
+  <div class="bg-burgundy-900 text-ivory border border-gold-400/30 rounded-2xl p-6 md:p-8">
+    <p class="text-gold-300 font-semibold uppercase tracking-widest text-xs mb-2">महत्त्वाची सूचना</p>
+    <p class="text-gold-100/90">
+      कृपया हे नियम काळजीपूर्वक वाचावेत. आरक्षण निश्चित होण्यापूर्वी प्रत्येक ग्राहकाने या नियमांवर सही करणे बंधनकारक आहे. सर्व नियमांचे काटेकोर पालन केले जाईल; कोणालाही सूट दिली जाणार नाही.
+    </p>
+    <p class="text-xs text-gold-200/75 mt-3">
+      पत्ता: सातव चौक, तांदुळवाडी रोड, बारामती &bull; आरक्षणासाठी संपर्क: ८३० ८२९ ७७७७ / ८३० ८१५ ७७७७
+    </p>
+  </div>
+
+  <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">१. सभागृह, क्षमता व सुविधा</h2>
+    <ol class="list-decimal pl-5 space-y-2 mb-6">
+      <li><strong>एकूण कमाल क्षमता: २०० पाहुणे.</strong> २०० पेक्षा अधिक पाहुण्यांना प्रवेश दिला जाणार नाही.</li>
+      <li><strong>हिरवळ (गार्डन लॉन):</strong> कमाल ७५ पाहुणे.</li>
+      <li><strong>भोजन कक्ष:</strong> एका पंगतीत कमाल ७५ पाहुणे. पाहुणे अधिक असल्यास भोजन पंगतीनुसार करावे लागेल.</li>
+      <li>सभागृह केवळ <strong>छोटेखानी विवाह, स्वागत समारंभ, वाढदिवस, कौटुंबिक कार्यक्रम व कंपनीचे कार्यक्रम</strong> यांसाठीच दिले जाईल.</li>
+    </ol>
+    <div class="grid md:grid-cols-2 gap-6 pt-4 border-t border-gold-100">
+      <div>
+        <h3 class="font-semibold text-burgundy-900 uppercase tracking-wider text-xs mb-3">भाड्यात समाविष्ट सुविधा</h3>
+        <ul class="space-y-1.5 text-gray-600 list-disc pl-5">
+          <li>खुर्च्या</li>
+          <li>हिरवळ (७५ पाहुण्यांपर्यंत)</li>
+          <li>वातानुकूलित भोजन कक्ष (एका पंगतीत ७५ पाहुणे)</li>
+          <li>संपूर्ण वातानुकूलन (सभागृह व भोजन कक्ष)</li>
+          <li>जनरेटरची सोय (जनरेटर चालवल्यास डिझेलचा खर्च स्वतंत्र)</li>
+          <li>शीतकपाटासह (फ्रिज) स्वयंपाकघर (ग्राहकाच्या आचाऱ्यांसाठी)</li>
+          <li>ध्वनिक्षेपकांसह ध्वनी यंत्रणा</li>
+          <li>स्त्री व पुरुषांसाठी स्वतंत्र स्वच्छतागृहे</li>
+          <li>एक कपडे बदलण्याची खोली</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-semibold text-burgundy-900 uppercase tracking-wider text-xs mb-3">भाड्यात समाविष्ट नाही (ग्राहकाने स्वतः व्यवस्था करावी)</h3>
+        <ul class="space-y-1.5 text-gray-600 list-disc pl-5">
+          <li>भोजन व्यवस्था (केटरिंग)</li>
+          <li>पेये</li>
+          <li>सजावट</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">२. कार्यक्रमाची वेळ व भाडे</h2>
+    <div class="overflow-x-auto mb-6">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-burgundy-900 text-gold-200 text-xs uppercase tracking-wider">
+            <th class="py-3 px-4 rounded-tl-lg">सत्र</th>
+            <th class="py-3 px-4">वेळ</th>
+            <th class="py-3 px-4 rounded-tr-lg">भाडे</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gold-100">
+          <tr><td class="py-3 px-4 font-semibold text-burgundy-950">पूर्ण दिवस</td><td class="py-3 px-4">सकाळी ९ ते रात्री ९</td><td class="py-3 px-4 font-semibold">₹३५,९९९</td></tr>
+          <tr><td class="py-3 px-4 font-semibold text-burgundy-950">सायंकाळ</td><td class="py-3 px-4">सायंकाळी ५ ते रात्री ९</td><td class="py-3 px-4 font-semibold">₹१७,९९९</td></tr>
+          <tr><td class="py-3 px-4 font-semibold text-burgundy-950">सकाळ</td><td class="py-3 px-4">सकाळी ९ ते दुपारी १</td><td class="py-3 px-4 font-semibold">₹१५,९९९</td></tr>
+          <tr><td class="py-3 px-4 font-semibold text-burgundy-950">दुपार</td><td class="py-3 px-4">दुपारी १ ते सायंकाळी ५</td><td class="py-3 px-4 font-semibold">₹१२,९९९</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol class="list-decimal pl-5 space-y-2">
+      <li><strong>जादा वेळ:</strong> प्रति तास ₹५,०००. तासाचा काही भाग वापरला तरी पूर्ण तासाचे भाडे आकारले जाईल.</li>
+      <li>पुढील सत्र रिकामे असेल तरच जादा वेळ दिला जाईल; मात्र <strong>रात्री १० नंतर कोणत्याही परिस्थितीत नाही</strong>.</li>
+      <li>सजावट, तयारी व आवराआवर <strong>आरक्षित वेळेतच पूर्ण करणे बंधनकारक आहे</strong>. आरक्षित वेळेपूर्वी किंवा नंतर लागलेला वेळ जादा वेळ म्हणून आकारला जाईल.</li>
+      <li>आरक्षित वेळ संपताच <strong>सभागृह रिकामे करणे बंधनकारक आहे</strong>. ठरलेल्या वेळी कर्मचारी ध्वनी यंत्रणा व दिवे बंद करतील.</li>
+      <li><strong>जनरेटर:</strong> कार्यक्रमादरम्यान वीज गेल्यामुळे जनरेटर चालवावा लागल्यास, प्रत्यक्ष वापरानुसार डिझेलचा खर्च ग्राहकाकडून स्वतंत्रपणे घेतला जाईल. हा खर्च अनामत रकमेतून वजा केला जाऊ शकतो.</li>
+    </ol>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">३. आरक्षण व रक्कम भरणा</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li><strong>आरक्षणाच्या वेळीच संपूर्ण भाडे (१००%) भरणे बंधनकारक आहे.</strong> अर्धवट रक्कम, इसार (टोकन) रक्कम किंवा तोंडी आश्वासनावर कोणतीही तारीख राखून ठेवली जाणार नाही.</li>
+        <li>(अ) संपूर्ण भाडे व अनामत रक्कम भरल्यानंतर आणि (ब) या नियमपत्रावर सही केल्यानंतरच आरक्षण निश्चित होईल.</li>
+        <li>आरक्षण कार्यक्रम आयोजित करणाऱ्या व्यक्तीच्याच नावे करावे. सोबत फोटो असलेल्या ओळखपत्राची प्रत (आधार / पॅन / वाहन परवाना) व पत्ता द्यावा.</li>
+        <li>कार्यक्रमाचे स्वरूप आरक्षण अर्जावर नमूद करणे आवश्यक आहे. सभागृह अन्य कोणत्याही कारणासाठी वापरता येणार नाही.</li>
+        <li>आरक्षण दुसऱ्या व्यक्तीच्या नावे <strong>हस्तांतरित करता येणार नाही किंवा पोटभाड्याने देता येणार नाही</strong>.</li>
+        <li><strong>रक्कम फक्त ऑनलाइन स्वीकारली जाईल:</strong> UPI किंवा बँक हस्तांतरण (NEFT / RTGS / IMPS). रोख रक्कम किंवा धनादेश (चेक) स्वीकारला जाणार नाही. उत्सव बँक्वेटच्या बँक खात्यात रक्कम जमा झाल्यानंतरच आरक्षण निश्चित होईल.</li>
+      </ol>
+    </div>
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">४. अनामत रक्कम</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li><strong>परत मिळणारी अनामत रक्कम: ₹१०,०००</strong> (रुपये दहा हजार फक्त), भाड्यासोबत भरावी.</li>
+        <li>ही रक्कम कार्यक्रमानंतर ७ कामकाजाच्या दिवसांत, फक्त आरक्षण करणाऱ्या व्यक्तीला, बँक हस्तांतरणाद्वारे परत केली जाईल.</li>
+        <li>नुकसान, जादा वेळ, जादा स्वच्छता किंवा कोणत्याही नियमभंगाची रक्कम अनामत रकमेतून वजा केली जाईल. अनामत रक्कम अपुरी पडल्यास उर्वरित रक्कम ग्राहकाने <strong>सभागृह सोडण्यापूर्वीच भरणे बंधनकारक आहे</strong>.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">५. आरक्षण रद्द करणे व तारीख बदल</h2>
+    <div class="overflow-x-auto mb-6">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-burgundy-900 text-gold-200 text-xs uppercase tracking-wider">
+            <th class="py-3 px-4 rounded-tl-lg">कार्यक्रमापूर्वी दिलेली सूचना</th>
+            <th class="py-3 px-4 rounded-tr-lg">भाड्याचा परतावा</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gold-100">
+          <tr><td class="py-3 px-4">१ महिन्यापेक्षा अधिक आधी</td><td class="py-3 px-4 font-medium">सही केलेल्या अर्जाप्रमाणे</td></tr>
+          <tr><td class="py-3 px-4">१५ दिवस ते १ महिना आधी</td><td class="py-3 px-4 font-semibold">५०%</td></tr>
+          <tr><td class="py-3 px-4">५ ते १४ दिवस आधी</td><td class="py-3 px-4 font-semibold">२५%</td></tr>
+          <tr><td class="py-3 px-4">५ दिवसांपेक्षा कमी</td><td class="py-3 px-4 font-semibold text-burgundy-700">परतावा नाही</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ol class="list-decimal pl-5 space-y-2">
+      <li>आरक्षण रद्द करण्याची सूचना <strong>फक्त लेखी स्वरूपातच</strong> (पत्र, ई-मेल किंवा आरक्षण क्रमांकावर WhatsApp) ग्राह्य धरली जाईल. सूचना मिळाल्याच्या तारखेनुसार परतावा ठरेल.</li>
+      <li>किमान १५ दिवस आधी कळवल्यास, उपलब्धतेनुसार, <strong>फक्त एकदाच</strong> तारीख विनाशुल्क बदलून मिळेल. दुसऱ्यांदा तारीख बदलल्यास ते आरक्षण रद्द केल्याप्रमाणे मानले जाईल.</li>
+      <li>आरक्षण रद्द केल्यास अनामत रक्कम पूर्ण परत केली जाईल.</li>
+      <li>आमच्या नियंत्रणाबाहेरील कारणांमुळे (नैसर्गिक आपत्ती, शासकीय आदेश इत्यादी) कार्यक्रम रद्द करावा लागल्यास, भरलेली संपूर्ण रक्कम परत केली जाईल किंवा कार्यक्रम दुसऱ्या तारखेला घेतला जाईल.</li>
+    </ol>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-xl font-bold text-burgundy-950 mb-3">६. भोजन व स्वयंपाकघर</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li>उत्सव बँक्वेटतर्फे <strong>भोजन किंवा पेये पुरवली जात नाहीत</strong>. ग्राहकाने स्वतःचे आचारी (केटरर) आणावेत.</li>
+        <li><strong>येथे फक्त शुद्ध शाकाहारी भोजनालाच परवानगी आहे.</strong> मांसाहारी पदार्थ, अंड्यांसह, परिसरात आणणे, शिजवणे किंवा वाढणे सक्त मनाई आहे.</li>
+        <li>आचाऱ्यांचे नाव व संपर्क क्रमांक कार्यक्रमाच्या किमान ३ दिवस आधी कळवावा.</li>
+        <li>गॅस सिलिंडर, शेगडी व स्वयंपाक <strong>फक्त स्वयंपाकघरातच</strong> करावा; सभागृह, भोजन कक्ष किंवा हिरवळीवर कधीही नाही.</li>
+        <li>सभागृह, भोजन कक्ष किंवा हिरवळीवर भांडी धुण्यास मनाई आहे.</li>
+        <li>आचाऱ्यांनी स्वयंपाकघर स्वच्छ करून परत द्यावे आणि आरक्षित वेळ संपण्यापूर्वी सर्व अन्न, कचरा व साहित्य हलवावे.</li>
+        <li>ग्राहकाच्या आचाऱ्यांनी पुरवलेल्या भोजनाची गुणवत्ता, प्रमाण किंवा स्वच्छता याची कोणतीही जबाबदारी व्यवस्थापनाची राहणार नाही.</li>
+      </ol>
+    </div>
+
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-xl font-bold text-burgundy-950 mb-3">७. मद्य, धूम्रपान व प्रतिबंधित वस्तू – कोणतीही सूट नाही</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li>सभागृह, भोजन कक्ष, हिरवळ, स्वयंपाकघर, स्वच्छतागृहे व वाहनतळ यांसह संपूर्ण परिसरात <strong>मद्यपानास सक्त मनाई आहे</strong>.</li>
+        <li><strong>धूम्रपान, गुटखा, तंबाखू व कोणतेही अमली पदार्थ यांना सक्त मनाई आहे.</strong></li>
+        <li>कोणत्याही प्रकारचे शस्त्र आणण्यास मनाई आहे.</li>
+        <li>फटाके, आकाशकंदील, उघडी ज्योत, कॉन्फेटी गन व ज्वलनशील वस्तू व्यवस्थापनाच्या लेखी परवानगीशिवाय वापरता येणार नाहीत.</li>
+        <li>महाराष्ट्र शासनाच्या प्लास्टिकबंदीनुसार एकदाच वापराचे प्लास्टिक व थर्माकोल (ताट, वाट्या, पेले, चमचे, पिशव्या) वापरण्यास मनाई आहे.</li>
+        <li>जुगार, राजकीय मेळावे व कोणतेही बेकायदेशीर कृत्य करण्यास मनाई आहे.</li>
+        <li>पाळीव प्राण्यांना प्रवेश नाही.</li>
+      </ol>
+    </div>
+
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-xl font-bold text-burgundy-950 mb-3">८. संगीत व ध्वनी</h2>
+      <ol class="list-decimal pl-5 space-y-2">
+        <li>सभागृहाची ध्वनी यंत्रणा वापरता येईल. ग्राहक स्वतःचा DJ देखील आणू शकतात.</li>
+        <li>ध्वनी प्रदूषण (नियमन व नियंत्रण) नियम, २००० नुसार <strong>सर्व संगीत व ध्वनिक्षेपक रात्री ठीक १० वाजता बंद करणे बंधनकारक आहे</strong>.</li>
+        <li>आवाज परवानगी असलेल्या मर्यादेतच ठेवावा. शेजाऱ्यांनी तक्रार केल्यास किंवा पोलिसांनी सांगितल्यास कर्मचारी आवाज कमी करतील किंवा संगीत बंद करतील.</li>
+        <li>संगीतासाठी आवश्यक परवाने (PPL / IPRS) किंवा पोलीस परवानगी घेण्याची जबाबदारी ग्राहकाची आहे.</li>
+      </ol>
+    </div>
+
+    <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
+      <h2 class="font-display text-xl font-bold text-burgundy-950 mb-3">९. सजावट व १०. सुरक्षितता</h2>
+      <ol class="list-decimal pl-5 space-y-2 mb-4">
+        <li>सजावट भाड्यात समाविष्ट नाही. ग्राहक स्वतःचे सजावटकार आणू शकतात.</li>
+        <li>भिंती, छत, दरवाजे, खांब किंवा फर्निचरवर <strong>खिळे, स्क्रू, चिकटपट्टी, डिंक, टाचण्या किंवा रंग लावण्यास मनाई आहे</strong>.</li>
+        <li>सजावटकारांनी आरक्षित वेळ संपण्यापूर्वी सर्व साहित्य हलवावे.</li>
+      </ol>
+      <ul class="list-disc pl-5 space-y-1.5 border-t border-gold-100 pt-3">
+        <li>आपत्कालीन मार्ग, अग्निशमन यंत्रे व ये-जा करण्याचे मार्ग कधीही अडवू नयेत.</li>
+        <li>विद्युत फलक, वातानुकूलन नियंत्रण, जनरेटर किंवा वायरिंगला हात लावू नये.</li>
+        <li>लहान मुलांवर, विशेषतः हिरवळीवर, पालकांनी सतत लक्ष ठेवावे.</li>
+        <li>असुरक्षित किंवा बेकायदेशीर वाटणाऱ्या कोणत्याही व्यक्तीला प्रवेश नाकारण्याचा किंवा कृती थांबवण्याचा अधिकार व्यवस्थापनाला आहे.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">११. वाहनतळ व १२. वर्तन व जबाबदारी</h2>
+    <p class="mb-3"><strong>वाहनतळ:</strong> वाहनतळात फक्त <strong>१० चारचाकी व ५० दुचाकी</strong> वाहनांची सोय आहे; "आधी येईल त्याला प्राधान्य" या तत्त्वावर. अधिकची वाहने रस्ता किंवा शेजाऱ्यांचे प्रवेशद्वार न अडवता बाहेर लावावीत. वाहने मालकाच्या स्वतःच्या जबाबदारीवर लावावीत.</p>
+    <ol class="list-decimal pl-5 space-y-2">
+      <li>सर्व पाहुणे, आचारी, सजावटकार व इतर कामगार यांच्या वर्तनाची <strong>वैयक्तिक जबाबदारी ग्राहकाची आहे</strong>.</li>
+      <li>सभागृहात किंवा परिसरात कोणतेही भांडण, शांततेचा भंग किंवा बेकायदेशीर कृत्य होणार नाही याची खबरदारी ग्राहकाने घ्यावी.</li>
+      <li>वरात, मिरवणूक, बँड, रस्त्याचा वापर किंवा ड्रोनद्वारे चित्रीकरणासाठी लागणारी पोलीस किंवा इतर परवानगी ग्राहकाने स्वतः घ्यावी.</li>
+      <li>इमारत, फर्निचर, वातानुकूलन यंत्रे, दिवे, ध्वनी यंत्रणा, स्वच्छतागृहे किंवा हिरवळीच्या कोणत्याही नुकसानीचा संपूर्ण खर्च ग्राहकाने भरावा.</li>
+      <li>दागिने, रोख रक्कम, भेटवस्तू, वाहने किंवा वैयक्तिक वस्तू हरवल्यास किंवा चोरीस गेल्यास त्याची जबाबदारी व्यवस्थापनाची राहणार नाही. विसरलेल्या वस्तू फक्त ७ दिवस सांभाळून ठेवल्या जातील.</li>
+      <li>ग्राहकाने लेखी हरकत घेतली नाही तर, सजवलेल्या सभागृहाची (पाहुण्यांशिवाय) छायाचित्रे व्यवस्थापन जाहिरातीसाठी वापरू शकते.</li>
+    </ol>
+  </div>
+
+  <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">१३. नियमभंगाबद्दल दंड</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-burgundy-900 text-gold-200 text-xs uppercase tracking-wider">
+            <th class="py-3 px-4 rounded-tl-lg">नियमभंग</th>
+            <th class="py-3 px-4 rounded-tr-lg">होणारी कारवाई</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gold-100">
+          <tr><td class="py-3 px-4 font-medium">मद्य, धूम्रपान, तंबाखू किंवा अमली पदार्थ आढळल्यास</td><td class="py-3 px-4">कार्यक्रम तत्काळ बंद; भाडे परत नाही; संपूर्ण अनामत रक्कम जप्त; संबंधितांना बाहेर काढले जाईल; गरज भासल्यास पोलिसांना कळवले जाईल</td></tr>
+          <tr><td class="py-3 px-4 font-medium">मांसाहारी पदार्थ आणल्यास किंवा वाढल्यास</td><td class="py-3 px-4">पदार्थ परिसराबाहेर काढले जातील; संपूर्ण अनामत रक्कम जप्त; भाडे परत न करता कार्यक्रम बंद केला जाऊ शकतो</td></tr>
+          <tr><td class="py-3 px-4 font-medium">शस्त्र, मारामारी किंवा बेकायदेशीर कृत्य</td><td class="py-3 px-4">कार्यक्रम तत्काळ बंद; परतावा नाही; संपूर्ण अनामत रक्कम जप्त; पोलिसांना कळवले जाईल</td></tr>
+          <tr><td class="py-3 px-4 font-medium">२०० पेक्षा जास्त पाहुणे</td><td class="py-3 px-4">अतिरिक्त पाहुण्यांना प्रवेश नाकारला जाईल; परतावा न देता कार्यक्रम बंद केला जाऊ शकतो</td></tr>
+          <tr><td class="py-3 px-4 font-medium">रात्री १० नंतर संगीत</td><td class="py-3 px-4">ध्वनी यंत्रणा बंद; अनामत रकमेतून ₹२,००० वजा</td></tr>
+          <tr><td class="py-3 px-4 font-medium">आरक्षित वेळेनंतर थांबल्यास</td><td class="py-3 px-4">प्रति तास किंवा तासाच्या भागासाठी ₹५,०००, अनामत रकमेतून वजा</td></tr>
+          <tr><td class="py-3 px-4 font-medium">भिंती / फर्निचरवर खिळे, चिकटपट्टी, रंग इत्यादी</td><td class="py-3 px-4">दुरुस्तीचा प्रत्यक्ष खर्च वसूल</td></tr>
+          <tr><td class="py-3 px-4 font-medium">एकदाच वापराचे प्लास्टिक वापरल्यास</td><td class="py-3 px-4">अनामत रकमेतून ₹२,००० वजा</td></tr>
+          <tr><td class="py-3 px-4 font-medium">सभागृह किंवा स्वयंपाकघर अस्वच्छ सोडल्यास</td><td class="py-3 px-4">स्वच्छता शुल्क ₹२,००० अनामत रकमेतून वजा</td></tr>
+          <tr><td class="py-3 px-4 font-medium">मालमत्तेचे कोणतेही नुकसान</td><td class="py-3 px-4">प्रत्यक्ष खर्च वसूल; अनामत रकमेपेक्षा अधिक रक्कम सभागृह सोडण्यापूर्वी भरावी</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="bg-ivory border border-gold-200 rounded-2xl p-6 md:p-8">
+    <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">१४. सर्वसाधारण</h2>
+    <ol class="list-decimal pl-5 space-y-2 mb-6">
+      <li>कोणत्याही नियमभंगाबाबत, तसेच येथे नमूद नसलेल्या कोणत्याही बाबीबाबत, <strong>व्यवस्थापनाचा निर्णय अंतिम राहील</strong>.</li>
+      <li>हे नियम पूर्वसूचनेशिवाय बदलले जाऊ शकतात. सही केलेल्या आरक्षण अर्जावरील नियमच त्या आरक्षणास लागू होतील.</li>
+      <li>सर्व वादांसाठी फक्त बारामती न्यायालयाचे कार्यक्षेत्र लागू राहील.</li>
+    </ol>
+    <div class="pt-4 border-t border-gold-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-gray-500">आरक्षण निश्चित करताना ग्राहकाच्या प्रतिज्ञापत्रावर सही आवश्यक आहे.</p>
+      <a href="/booking" class="gold-pill-btn px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider inline-block">आरक्षणाकडे पुढे जा</a>
+    </div>
+  </div>
+
+</section>
+
+{% else %}
+<!-- ==================== ENGLISH POLICY (Cross-verified) ==================== -->
 <div class="pt-32 pb-16 bg-burgundy-900 border-b border-gold-400/20 text-center px-6">
   <p class="text-xs text-gold-300 uppercase tracking-[0.3em] font-semibold mb-3">Effective from Dec 15, 2026</p>
   <h1 class="font-display text-4xl md:text-6xl text-ivory font-bold">Booking Terms &amp; Policy</h1>
@@ -17,7 +256,6 @@
 
 <section class="py-16 max-w-4xl mx-auto px-6 space-y-12 text-sm text-gray-700 leading-relaxed">
 
-  <!-- Intro Notice -->
   <div class="bg-burgundy-900 text-ivory border border-gold-400/30 rounded-2xl p-6 md:p-8">
     <p class="text-gold-300 font-semibold uppercase tracking-widest text-xs mb-2">Important Notice</p>
     <p class="text-gold-100/90">
@@ -28,7 +266,6 @@
     </p>
   </div>
 
-  <!-- 1. Venue, Capacity & Facilities -->
   <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">1. Venue, Capacity &amp; Facilities</h2>
     <ol class="list-decimal pl-5 space-y-2 mb-6">
@@ -46,10 +283,10 @@
           <li>AC dining area (75 guests per sitting)</li>
           <li>Full air-conditioning (hall and dining)</li>
           <li>Generator back-up (diesel charges extra if used)</li>
-          <li>Kitchen (for the customer's caterer)</li>
+          <li>Kitchen with refrigerator (for the customer's caterer)</li>
           <li>Sound system with speakers</li>
           <li>Separate washrooms for ladies and gents</li>
-          <li>Common changing room</li>
+          <li>One common changing room</li>
         </ul>
       </div>
       <div>
@@ -63,7 +300,6 @@
     </div>
   </div>
 
-  <!-- 2. Slots & Rent -->
   <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">2. Slots &amp; Rent</h2>
     <div class="overflow-x-auto mb-6">
@@ -88,10 +324,10 @@
       <li>Extra hours are given only if the next slot is free, and <strong>never beyond 10:00 PM</strong>.</li>
       <li>Decoration, set-up and clearing <strong>must be done within the booked slot</strong>. Time used before or after the slot is charged as extra hours.</li>
       <li>The venue <strong>must be vacated</strong> at the end of the slot. Staff will switch off music and lights at the end time.</li>
+      <li><strong>Generator:</strong> If the generator must be run due to a power cut during the event, actual diesel cost as per usage will be charged separately to the customer and may be deducted from the security deposit.</li>
     </ol>
   </div>
 
-  <!-- 3. Booking & Payment + 4. Security Deposit -->
   <div class="grid md:grid-cols-2 gap-6">
     <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
       <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">3. Booking &amp; Payment</h2>
@@ -101,7 +337,7 @@
         <li>The booking must be in the name of the person hosting the event, with a copy of photo ID (Aadhaar / PAN / driving licence) and address.</li>
         <li>The purpose of the event must be written on the booking form. The venue cannot be used for any other purpose.</li>
         <li>The booking <strong>cannot be transferred or sub-let</strong> to any other person.</li>
-        <li>Payment by cash (within legal limits), UPI, cheque or bank transfer. A cheque booking is confirmed only after clearance; a bounced cheque cancels the booking.</li>
+        <li><strong>Payment accepted online only:</strong> UPI or bank transfer (NEFT / RTGS / IMPS). Cash or cheque will not be accepted. The booking is confirmed only after the amount is credited to Utsav Banquet's bank account.</li>
       </ol>
     </div>
     <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
@@ -109,12 +345,11 @@
       <ol class="list-decimal pl-5 space-y-2">
         <li><strong>Refundable security deposit: Rs. 10,000</strong> (Rupees Ten Thousand only), payable with the rent.</li>
         <li>Refunded within 7 working days after the event, only to the person who booked, by bank transfer.</li>
-        <li>Deductions for damage, extra hours, extra cleaning or any breach of these rules will be made from the deposit. If the deposit is not enough, the customer <strong>must pay the balance before leaving</strong>.</li>
+        <li>Deductions for damage, extra hours, generator diesel, extra cleaning or any breach of these rules will be made from the deposit. If the deposit is not enough, the customer <strong>must pay the balance before leaving</strong>.</li>
       </ol>
     </div>
   </div>
 
-  <!-- 5. Cancellation & Date Change -->
   <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">5. Cancellation &amp; Date Change</h2>
     <div class="overflow-x-auto mb-6">
@@ -141,7 +376,6 @@
     </ol>
   </div>
 
-  <!-- 6 to 12 -->
   <div class="grid md:grid-cols-2 gap-6">
     <div class="bg-white border border-gold-200 rounded-2xl p-6 shadow-sm">
       <h2 class="font-display text-xl font-bold text-burgundy-950 mb-3">6. Food, Catering &amp; Kitchen</h2>
@@ -195,7 +429,6 @@
     </div>
   </div>
 
-  <!-- 11. Parking & 12. Conduct -->
   <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">11. Parking &amp; 12. Conduct &amp; Responsibility</h2>
     <p class="mb-3"><strong>Parking:</strong> Parking for <strong>10 four-wheelers and 50 two-wheelers</strong> only, first come, first served. Extra vehicles must park outside without blocking the road or neighbours' gates. Parking is at the owner's risk.</p>
@@ -209,7 +442,6 @@
     </ol>
   </div>
 
-  <!-- 13. Penalties -->
   <div class="bg-white border border-gold-200 rounded-2xl p-6 md:p-8 shadow-sm">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">13. Penalties</h2>
     <div class="overflow-x-auto">
@@ -236,7 +468,6 @@
     </div>
   </div>
 
-  <!-- 14. General -->
   <div class="bg-ivory border border-gold-200 rounded-2xl p-6 md:p-8">
     <h2 class="font-display text-2xl font-bold text-burgundy-950 mb-4">14. General</h2>
     <ol class="list-decimal pl-5 space-y-2 mb-6">
@@ -251,5 +482,6 @@
   </div>
 
 </section>
+{% endif %}
 
 {% endblock %}

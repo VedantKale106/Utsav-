@@ -2,7 +2,7 @@ import os
 import secrets
 from datetime import datetime, timedelta
 from hmac import compare_digest
-from flask import Flask, request, session, render_template
+from flask import Flask, request, session, render_template, redirect, url_for
 from dotenv import load_dotenv
 from site_settings import get_site_settings
 
@@ -37,9 +37,13 @@ def add_security_headers(response):
 
 @app.context_processor
 def inject_template_values():
+    lang = request.args.get("lang") or session.get("lang", "en")
+    if lang not in ("en", "mr"):
+        lang = "en"
     return {
         "current_year": datetime.now().year,
         "site": get_site_settings(),
+        "lang": lang,
     }
 
 
@@ -68,6 +72,15 @@ app.register_blueprint(order_bp)
 app.register_blueprint(admin_bp)
 
 from flask import render_template
+
+@app.route("/set-lang/<lang_code>")
+def set_language(lang_code):
+    session["lang"] = "mr" if lang_code == "mr" else "en"
+    next_url = request.referrer or url_for("index")
+    if not next_url.startswith("/") and not next_url.startswith(request.host_url):
+        next_url = url_for("index")
+    return redirect(next_url)
+
 
 @app.route("/")
 def index():

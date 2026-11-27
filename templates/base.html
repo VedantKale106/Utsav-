@@ -94,24 +94,39 @@
         {% if request.path.startswith('/admin') %}
         <li><a href="{{ url_for('admin.dashboard') }}" class="nav-link">Admin Home</a></li>
         {% else %}
-        <li><a href="/" class="nav-link">Home</a></li>
-        <li><a href="/about" class="nav-link">About</a></li>
-        <li><a href="/gallery" class="nav-link">Gallery</a></li>
-        <li><a href="/pricing" class="nav-link">Pricing</a></li>
+        <li><a href="/" class="nav-link">{{ 'मुख्यपृष्ठ' if lang == 'mr' else 'Home' }}</a></li>
+        <li><a href="/about" class="nav-link">{{ 'आमच्याबद्दल' if lang == 'mr' else 'About' }}</a></li>
+        <li><a href="/gallery" class="nav-link">{{ 'दालन' if lang == 'mr' else 'Gallery' }}</a></li>
+        <li><a href="/pricing" class="nav-link">{{ 'दरपत्रक' if lang == 'mr' else 'Pricing' }}</a></li>
+        <li><a href="/terms" class="nav-link">{{ 'नियम व अटी' if lang == 'mr' else 'Policy' }}</a></li>
+        <li>
+          <div class="inline-flex items-center rounded-full border border-gold-400/50 bg-burgundy-950/60 p-0.5 text-[11px] font-semibold" role="group" aria-label="Language switcher">
+            <a href="{{ url_for('set_language', lang_code='en') }}" class="px-2.5 py-1 rounded-full transition-colors {{ 'bg-gold-400 text-burgundy-950' if lang != 'mr' else 'text-gold-200 hover:text-gold-100' }}">EN</a>
+            <a href="{{ url_for('set_language', lang_code='mr') }}" class="px-2.5 py-1 rounded-full transition-colors {{ 'bg-gold-400 text-burgundy-950' if lang == 'mr' else 'text-gold-200 hover:text-gold-100' }}">मराठी</a>
+          </div>
+        </li>
         <li>
           <a href="/booking" class="gold-pill-btn text-xs font-semibold tracking-wider uppercase px-6 py-2.5 rounded-full inline-block">
-            Book Now
+            {{ 'आरक्षण करा' if lang == 'mr' else 'Book Now' }}
           </a>
         </li>
         {% endif %}
       </ul>
 
-      <!-- Mobile Hamburger -->
-      <button id="menu-toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
-        <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
-        <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
-        <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
-      </button>
+      <!-- Mobile Right Controls -->
+      <div class="md:hidden flex items-center gap-2">
+        {% if not request.path.startswith('/admin') %}
+        <div class="inline-flex items-center rounded-full border border-gold-400/50 bg-burgundy-950/60 p-0.5 text-[10px] font-semibold" role="group" aria-label="Language switcher">
+          <a href="{{ url_for('set_language', lang_code='en') }}" class="px-2 py-0.5 rounded-full transition-colors {{ 'bg-gold-400 text-burgundy-950' if lang != 'mr' else 'text-gold-200' }}">EN</a>
+          <a href="{{ url_for('set_language', lang_code='mr') }}" class="px-2 py-0.5 rounded-full transition-colors {{ 'bg-gold-400 text-burgundy-950' if lang == 'mr' else 'text-gold-200' }}">मराठी</a>
+        </div>
+        {% endif %}
+        <button id="menu-toggle" class="flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
+          <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-gold-200 block transition-all duration-300"></span>
+        </button>
+      </div>
     </div>
 
     <!-- Mobile Menu -->
@@ -120,13 +135,14 @@
         {% if request.path.startswith('/admin') %}
         <li><a href="{{ url_for('admin.dashboard') }}" class="block py-2 nav-link">Admin Home</a></li>
         {% else %}
-        <li><a href="/" class="block py-2 nav-link">Home</a></li>
-        <li><a href="/about" class="block py-2 nav-link">About</a></li>
-        <li><a href="/gallery" class="block py-2 nav-link">Gallery</a></li>
-        <li><a href="/pricing" class="block py-2 nav-link">Pricing</a></li>
+        <li><a href="/" class="block py-2 nav-link">{{ 'मुख्यपृष्ठ' if lang == 'mr' else 'Home' }}</a></li>
+        <li><a href="/about" class="block py-2 nav-link">{{ 'आमच्याबद्दल' if lang == 'mr' else 'About' }}</a></li>
+        <li><a href="/gallery" class="block py-2 nav-link">{{ 'दालन' if lang == 'mr' else 'Gallery' }}</a></li>
+        <li><a href="/pricing" class="block py-2 nav-link">{{ 'दरपत्रक' if lang == 'mr' else 'Pricing' }}</a></li>
+        <li><a href="/terms" class="block py-2 nav-link">{{ 'आरक्षणाचे नियम व अटी' if lang == 'mr' else 'Booking Terms & Policy' }}</a></li>
         <li>
           <a href="/booking" class="block text-center gold-pill-btn font-semibold uppercase tracking-wider text-xs px-6 py-3 rounded-full mt-2">
-            Book Now
+            {{ 'आरक्षण करा' if lang == 'mr' else 'Book Now' }}
           </a>
         </li>
         {% endif %}
