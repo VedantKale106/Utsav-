@@ -161,10 +161,38 @@ def dashboard():
     expire_pending_requests(db)
     requests = list(db["booking_requests"].find({"status": "pending"}).sort("date", 1))
     bookings = list(db["bookings"].find().sort("date", -1))
+
+    calendar_events = []
+    for booking in bookings:
+        calendar_events.append({
+            "id": str(booking.get("_id", "")),
+            "name": booking.get("name", ""),
+            "phone": booking.get("phone", ""),
+            "date": str(booking.get("date", ""))[:10],
+            "slot": booking.get("slot", ""),
+            "event_type": booking.get("event_type", ""),
+            "status": booking.get("status", "confirmed"),
+            "call_url": customer_call_url(booking),
+            "whatsapp_url": customer_whatsapp_url(booking, "accepted"),
+        })
+    for req in requests:
+        calendar_events.append({
+            "id": str(req.get("_id", "")),
+            "name": req.get("name", ""),
+            "phone": req.get("phone", ""),
+            "date": str(req.get("date", ""))[:10],
+            "slot": req.get("slot", ""),
+            "event_type": req.get("event_type", ""),
+            "status": "pending",
+            "call_url": customer_call_url(req),
+            "whatsapp_url": customer_whatsapp_url(req, "accepted"),
+        })
+
     return render_template(
         "admin_dashboard.html",
         requests=requests,
         bookings=bookings,
+        calendar_events=calendar_events,
         format_booking_date=format_booking_date,
         customer_call_url=customer_call_url,
         customer_whatsapp_url=customer_whatsapp_url,

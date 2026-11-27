@@ -184,13 +184,76 @@
     </div>
 
     <div class="mt-20">
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <h2 class="text-2xl font-extrabold text-slate-900 flex items-center gap-3">
             <span class="w-2 h-6 bg-green-500 rounded-full"></span>
             Event Calendar
         </h2>
+        <div class="inline-flex bg-white border border-slate-200 rounded-xl p-1 shadow-sm self-start sm:self-auto">
+          <button type="button" id="view-calendar-btn" class="px-4 py-2 rounded-lg text-xs font-bold bg-slate-900 text-white transition-all">
+            Calendar View
+          </button>
+          <button type="button" id="view-list-btn" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all">
+            List View
+          </button>
+        </div>
       </div>
 
+      <!-- Interactive Monthly Calendar View -->
+      <div id="calendar-view-panel" class="space-y-6 mb-8">
+        <div class="bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
+          <!-- Calendar Toolbar -->
+          <div class="px-6 py-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <button type="button" id="cal-prev-btn" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700" aria-label="Previous month">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <h3 id="cal-month-label" class="text-lg md:text-xl font-extrabold text-slate-900 min-w-[170px] text-center"></h3>
+              <button type="button" id="cal-next-btn" class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700" aria-label="Next month">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+              <button type="button" id="cal-today-btn" class="ml-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700">
+                Today
+              </button>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap items-center gap-3 text-[11px] font-bold">
+              <span class="inline-flex items-center gap-1.5 text-emerald-700"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Confirmed</span>
+              <span class="inline-flex items-center gap-1.5 text-indigo-700"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>Full Day</span>
+              <span class="inline-flex items-center gap-1.5 text-amber-700"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Pending</span>
+            </div>
+          </div>
+
+          <!-- Weekday Headers -->
+          <div class="grid grid-cols-7 bg-slate-50 border-b border-slate-100 text-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+            <div class="py-3">Sun</div>
+            <div class="py-3">Mon</div>
+            <div class="py-3">Tue</div>
+            <div class="py-3">Wed</div>
+            <div class="py-3">Thu</div>
+            <div class="py-3">Fri</div>
+            <div class="py-3">Sat</div>
+          </div>
+
+          <!-- Days Grid -->
+          <div id="cal-days-grid" class="grid grid-cols-7 divide-x divide-y divide-slate-100"></div>
+        </div>
+
+        <!-- Selected Day Details -->
+        <div id="cal-day-details" class="bg-white rounded-[2rem] border border-slate-200 shadow-sm p-6 md:p-8 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Selected Date</p>
+              <h4 id="cal-selected-date-title" class="text-xl font-extrabold text-slate-900"></h4>
+            </div>
+            <button type="button" id="cal-close-details" class="text-xs font-bold text-slate-400 hover:text-slate-700 px-3 py-1.5 rounded-lg hover:bg-slate-100">Close</button>
+          </div>
+          <div id="cal-selected-events" class="grid md:grid-cols-2 gap-4"></div>
+        </div>
+      </div>
+
+      <div id="list-view-panel" class="hidden">
       {% if bookings %}
       <div class="admin-calendar bg-white rounded-[2rem] border border-slate-200 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
@@ -258,7 +321,212 @@
         <p class="text-slate-400 font-bold italic">The calendar is wide open for celebrations.</p>
       </div>
       {% endif %}
+      </div>
     </div>
   </main>
 </div>
+
+<script id="calendar-events-data" type="application/json">{{ calendar_events | tojson }}</script>
+<script>
+(function () {
+  const eventsDataEl = document.getElementById("calendar-events-data");
+  const events = eventsDataEl ? JSON.parse(eventsDataEl.textContent || "[]") : [];
+
+  const viewCalBtn = document.getElementById("view-calendar-btn");
+  const viewListBtn = document.getElementById("view-list-btn");
+  const calPanel = document.getElementById("calendar-view-panel");
+  const listPanel = document.getElementById("list-view-panel");
+
+  if (viewCalBtn && viewListBtn && calPanel && listPanel) {
+    viewCalBtn.addEventListener("click", function () {
+      calPanel.classList.remove("hidden");
+      listPanel.classList.add("hidden");
+      viewCalBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-slate-900 text-white transition-all";
+      viewListBtn.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all";
+    });
+    viewListBtn.addEventListener("click", function () {
+      listPanel.classList.remove("hidden");
+      calPanel.classList.add("hidden");
+      viewListBtn.className = "px-4 py-2 rounded-lg text-xs font-bold bg-slate-900 text-white transition-all";
+      viewCalBtn.className = "px-4 py-2 rounded-lg text-xs font-bold text-slate-500 hover:text-slate-900 transition-all";
+    });
+  }
+
+  const monthLabel = document.getElementById("cal-month-label");
+  const daysGrid = document.getElementById("cal-days-grid");
+  const prevBtn = document.getElementById("cal-prev-btn");
+  const nextBtn = document.getElementById("cal-next-btn");
+  const todayBtn = document.getElementById("cal-today-btn");
+  const detailsBox = document.getElementById("cal-day-details");
+  const detailsTitle = document.getElementById("cal-selected-date-title");
+  const detailsEvents = document.getElementById("cal-selected-events");
+  const closeDetailsBtn = document.getElementById("cal-close-details");
+
+  const eventsByDate = {};
+  events.forEach(function (ev) {
+    if (!ev.date) return;
+    if (!eventsByDate[ev.date]) eventsByDate[ev.date] = [];
+    eventsByDate[ev.date].push(ev);
+  });
+
+  const now = new Date();
+  let viewYear = now.getFullYear();
+  let viewMonth = now.getMonth();
+  let selectedDateStr = null;
+
+  const MONTHS = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const SLOT_LABELS = {
+    morning: "Morning (9-1)",
+    afternoon: "Afternoon (1-5)",
+    evening: "Evening (5-9)",
+    full_day: "Full Day (9-9)"
+  };
+
+  function pad2(n) { return n < 10 ? "0" + n : "" + n; }
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function pillStyle(ev) {
+    if (ev.status === "pending") {
+      return "bg-amber-100 text-amber-800 border border-amber-200";
+    }
+    if (ev.slot === "full_day") {
+      return "bg-indigo-100 text-indigo-800 border border-indigo-200";
+    }
+    return "bg-emerald-100 text-emerald-800 border border-emerald-200";
+  }
+
+  function renderDayDetails(dateStr) {
+    selectedDateStr = dateStr;
+    if (!detailsBox || !detailsTitle || !detailsEvents) return;
+    const parts = dateStr.split("-");
+    const dObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    detailsTitle.textContent = dObj.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+
+    const list = eventsByDate[dateStr] || [];
+    if (list.length === 0) {
+      detailsEvents.innerHTML = '<p class="text-sm text-slate-400 italic col-span-2">No bookings or pending requests on this date.</p>';
+    } else {
+      detailsEvents.innerHTML = list.map(function (ev) {
+        const badgeClass = ev.status === "pending"
+          ? "bg-amber-100 text-amber-800"
+          : (ev.status === "completed" ? "bg-slate-100 text-slate-700" : "bg-emerald-100 text-emerald-800");
+        const slotText = SLOT_LABELS[ev.slot] || ev.slot.replace("_", " ");
+        const callBtn = ev.call_url
+          ? '<a href="' + escapeHtml(ev.call_url) + '" class="bg-blue-50 text-blue-700 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold">Call</a>'
+          : "";
+        const waBtn = ev.whatsapp_url
+          ? '<a href="' + escapeHtml(ev.whatsapp_url) + '" target="_blank" rel="noopener" class="bg-green-50 text-green-700 hover:bg-green-100 px-3 py-1.5 rounded-lg text-xs font-bold">WhatsApp</a>'
+          : "";
+        return (
+          '<div class="border border-slate-200 rounded-2xl p-4 flex flex-col justify-between gap-3">' +
+            '<div>' +
+              '<div class="flex items-center justify-between gap-2 mb-1">' +
+                '<span class="font-bold text-slate-900">' + escapeHtml(ev.name) + '</span>' +
+                '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ' + badgeClass + '">' + escapeHtml(ev.status) + '</span>' +
+              '</div>' +
+              '<p class="text-xs font-semibold text-slate-600">' + escapeHtml(ev.event_type) + ' &bull; ' + escapeHtml(slotText) + '</p>' +
+              '<p class="text-xs text-slate-400 mt-0.5">' + escapeHtml(ev.phone) + '</p>' +
+            '</div>' +
+            '<div class="flex flex-wrap gap-2">' + callBtn + waBtn + '</div>' +
+          '</div>'
+        );
+      }).join("");
+    }
+    detailsBox.classList.remove("hidden");
+  }
+
+  function renderCalendar() {
+    if (!monthLabel || !daysGrid) return;
+    monthLabel.textContent = MONTHS[viewMonth] + " " + viewYear;
+
+    const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const todayStr = now.getFullYear() + "-" + pad2(now.getMonth() + 1) + "-" + pad2(now.getDate());
+
+    let html = "";
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div class="min-h-[92px] md:min-h-[116px] bg-slate-50/50 p-2"></div>';
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateStr = viewYear + "-" + pad2(viewMonth + 1) + "-" + pad2(day);
+      const dayEvents = eventsByDate[dateStr] || [];
+      const isToday = dateStr === todayStr;
+      const isSelected = dateStr === selectedDateStr;
+
+      const ringClass = isSelected ? "ring-2 ring-inset ring-slate-900 bg-slate-50" : "hover:bg-slate-50/80";
+      const numClass = isToday
+        ? "bg-slate-900 text-white w-6 h-6 rounded-full inline-flex items-center justify-center text-xs font-bold"
+        : "text-xs font-bold text-slate-700";
+
+      const pills = dayEvents.slice(0, 3).map(function (ev) {
+        const shortSlot = ev.slot === "full_day" ? "Full" : (ev.slot.charAt(0).toUpperCase() + ev.slot.slice(1, 4));
+        return '<div class="truncate rounded-md px-1.5 py-0.5 text-[10px] font-bold ' + pillStyle(ev) + '">' +
+                 escapeHtml(shortSlot + ": " + ev.name) +
+               '</div>';
+      }).join("");
+      const more = dayEvents.length > 3
+        ? '<div class="text-[10px] font-bold text-slate-400 pl-1">+' + (dayEvents.length - 3) + ' more</div>'
+        : "";
+
+      html += (
+        '<button type="button" data-cal-date="' + dateStr + '" class="min-h-[92px] md:min-h-[116px] p-1.5 md:p-2 text-left align-top flex flex-col gap-1 transition-colors ' + ringClass + '">' +
+          '<div class="flex items-center justify-between w-full">' +
+            '<span class="' + numClass + '">' + day + '</span>' +
+            (dayEvents.length ? '<span class="text-[10px] font-black text-slate-400">' + dayEvents.length + '</span>' : '') +
+          '</div>' +
+          '<div class="w-full space-y-1">' + pills + more + '</div>' +
+        '</button>'
+      );
+    }
+
+    const totalCells = firstDay + daysInMonth;
+    const trailing = (7 - (totalCells % 7)) % 7;
+    for (let i = 0; i < trailing; i++) {
+      html += '<div class="min-h-[92px] md:min-h-[116px] bg-slate-50/50 p-2"></div>';
+    }
+
+    daysGrid.innerHTML = html;
+    daysGrid.querySelectorAll("[data-cal-date]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        renderDayDetails(btn.getAttribute("data-cal-date"));
+        renderCalendar();
+      });
+    });
+  }
+
+  if (prevBtn) prevBtn.addEventListener("click", function () {
+    viewMonth--;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  if (nextBtn) nextBtn.addEventListener("click", function () {
+    viewMonth++;
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
+  if (todayBtn) todayBtn.addEventListener("click", function () {
+    viewYear = now.getFullYear();
+    viewMonth = now.getMonth();
+    renderCalendar();
+  });
+  if (closeDetailsBtn && detailsBox) closeDetailsBtn.addEventListener("click", function () {
+    detailsBox.classList.add("hidden");
+    selectedDateStr = null;
+    renderCalendar();
+  });
+
+  renderCalendar();
+})();
+</script>
 {% endblock %}
