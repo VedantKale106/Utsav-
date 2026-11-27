@@ -17,7 +17,7 @@ def check_availability():
 
     slot_settings = slots_by_key(get_site_settings())
     if slot not in slot_settings:
-        return jsonify({"error": "Invalid slot. Choose morning, evening, or full_day."}), 400
+        return jsonify({"error": "Invalid slot. Choose morning, afternoon, evening, or full_day."}), 400
 
     if not date_str:
         return jsonify({"error": "Date is required."}), 400

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Book Your Event — Utsav Banquet Hall</title>
-<meta name="description" content="Book Utsav Banquet Hall online. Bookings start from 15 December 2026." />
+<title>Book Your Event — Utsav Banquet Hall, Baramati</title>
+<meta name="description" content="Book Utsav Banquet Hall at Satav Chowk, Tandulwadi Road, Baramati. Effective from Dec 15, 2026." />
 {% endblock %}
 
 {% block content %}
@@ -64,11 +64,11 @@
                 required
               >
                 <option value="" disabled selected>Select event type</option>
-                <option value="Engagement">Engagement</option>
-                <option value="Birthday">Birthday Celebration</option>
-                <option value="Corporate">Corporate Event</option>
-                <option value="Social Function">Social Function</option>
-                <option value="Other">Other</option>
+                <option value="Intimate Wedding">Intimate Wedding</option>
+                <option value="Reception">Reception</option>
+                <option value="Birthday">Birthday</option>
+                <option value="Family Function">Family Function</option>
+                <option value="Corporate Event">Corporate Event</option>
               </select>
               <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -93,7 +93,7 @@
           <!-- Slot -->
           <div class="mb-8">
             <label class="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">Select Slot</label>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="slot-grid">
+            <div class="grid grid-cols-2 gap-3" id="slot-grid">
               {% for slot in site.slots if slot.active %}
               <label
                 class="slot-card relative border-2 border-gray-200 rounded-xl p-4 cursor-pointer transition-all duration-200 hover:border-gold-400 {% if preselected_slot == slot.key %}border-gold-500 bg-gold-50{% endif %}"
@@ -113,7 +113,7 @@
 
             <label class="flex items-start gap-3 mb-6 text-xs text-gray-500">
               <input type="checkbox" id="consent" name="consent" class="mt-0.5" required />
-              <span>I agree that Utsav may store and use these details to process my booking request. <a href="/privacy" target="_blank" class="text-gold-700 underline">Privacy policy</a>.</span>
+              <span>I have read and accept the <a href="/terms" target="_blank" class="text-burgundy-700 underline font-medium">Booking Terms &amp; Policy</a> (including pure veg, zero-alcohol, 10 PM music cutoff &amp; 200-guest limit) and <a href="/privacy" target="_blank" class="text-burgundy-700 underline">Privacy Policy</a>.</span>
             </label>
             <p class="error-msg text-red-500 text-xs mt-1 mb-4 hidden" id="consent-error"></p>
 
@@ -170,9 +170,9 @@
           {% endfor %}
         </ul>
         <div class="mt-5 bg-burgundy-950/60 border border-gold-400/30 rounded-xl p-4 space-y-1.5">
-          <p class="text-gold-300 text-xs font-semibold">Pricing &amp; Venue Policy</p>
-          <p class="text-gold-100/75 text-xs">Morning &amp; Evening: Rs. 15,000 for first 100 bookings (Rs. 20,000 thereafter). All prices exclude GST (charged separately).</p>
-          <p class="text-gold-100/70 text-xs">We provide AC hall, chairs, tables, stage &amp; parking (10 4W, 50 2W) only. No catering, no decoration, no cooking allowed.</p>
+          <p class="text-gold-300 text-xs font-semibold">Payment &amp; Security Deposit</p>
+          <p class="text-gold-100/75 text-xs">100% rent + Rs. 10,000 refundable security deposit payable at booking with photo ID and signed <a href="/terms" class="underline text-gold-300">Terms &amp; Policy</a>.</p>
+          <p class="text-gold-100/70 text-xs">Extra hours: Rs. 5,000/hr (never beyond 10:00 PM). Pure veg only; no alcohol/smoking.</p>
         </div>
       </div>
 

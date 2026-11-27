@@ -1,30 +1,31 @@
 {
   "business_name": "Utsav Banquet Hall",
-  "address": "Utsav Banquet Hall (View on Google Maps)",
+  "address": "Satav Chowk, Tandulwadi Road, Baramati",
   "phone": "830 829 7777",
   "secondary_phone": "830 815 7777",
   "whatsapp_number": "918308297777",
   "email": "info@utsavbanquet.in",
   "bookings_start_date": "2026-12-15",
+  "security_deposit": 10000,
   "pending_request_expiry_hours": 48,
   "blackout_dates": [],
   "map_url": "https://maps.app.goo.gl/wuiVtYXr9BGZxxi76?g_st=ac",
   "slots": [
-    {"key": "morning", "label": "Morning Slot", "time": "9 AM - 1 PM", "price": 15000, "regular_price": 20000, "description": "Rs. 15,000 for the first 100 bookings (Rs. 20,000 thereafter), excluding GST. Ideal for engagements and daytime functions.", "featured": false, "active": true},
-    {"key": "afternoon", "label": "Afternoon", "time": "12 PM - 5 PM", "price": 15000, "description": "Inactive slot.", "featured": false, "active": false},
-    {"key": "evening", "label": "Evening Slot", "time": "4 PM - 9 PM", "price": 15000, "regular_price": 20000, "description": "Rs. 15,000 for the first 100 bookings (Rs. 20,000 thereafter), excluding GST. Perfect for birthdays, engagements, and evening events.", "featured": false, "active": true},
-    {"key": "full_day", "label": "Full Day", "time": "9 AM - 9 PM", "price": 25000, "description": "Rs. 25,000 excluding GST. Complete day access for grand celebrations and corporate events.", "featured": true, "active": true}
+    {"key": "morning", "label": "Morning", "time": "9:00 AM - 1:00 PM", "price": 15999, "description": "Ideal for morning weddings, engagements, and daytime family functions.", "featured": false, "active": true},
+    {"key": "afternoon", "label": "Afternoon", "time": "1:00 PM - 5:00 PM", "price": 12999, "description": "Great for daytime birthdays, luncheons, and corporate gatherings.", "featured": false, "active": true},
+    {"key": "evening", "label": "Evening", "time": "5:00 PM - 9:00 PM", "price": 17999, "description": "Perfect for evening receptions, birthday parties, and social events.", "featured": false, "active": true},
+    {"key": "full_day", "label": "Full Day", "time": "9:00 AM - 9:00 PM", "price": 35999, "description": "Complete 12-hour access for grand celebrations and multi-ritual functions.", "featured": true, "active": true}
   ],
   "highlights": [
-    {"title": "AC Hall", "description": "Centrally air-conditioned banquet hall for up to 200 guests"},
-    {"title": "Dedicated Parking", "description": "Parking for up to 10 four-wheelers and 50 two-wheelers"},
-    {"title": "Hall Essentials", "description": "Includes AC hall, chairs, tables, and stage setup"},
-    {"title": "Dining Area", "description": "50-guest one-time dining capacity (no cooking or catering)"}
+    {"title": "Full AC Hall & Dining", "description": "Centrally air-conditioned hall (up to 200 guests) & AC dining (75 per sitting)"},
+    {"title": "Garden Lawn", "description": "Manicured garden lawn accommodating up to 75 guests"},
+    {"title": "Power, Sound & Kitchen", "description": "Generator back-up (diesel extra if used), sound system & caterer kitchen"},
+    {"title": "Parking & Rooms", "description": "10 four-wheelers & 50 two-wheelers parking, separate washrooms & common changing room"}
   ],
   "stats": [
-    {"value": "200", "label": "Guest Capacity"},
-    {"value": "50", "label": "One-Time Dining"},
+    {"value": "200", "label": "Max Guest Capacity"},
+    {"value": "75", "label": "Garden Lawn / Dining"},
     {"value": "10 + 50", "label": "4W & 2W Parking"},
-    {"value": "15 Dec", "label": "Bookings Start 2026"}
+    {"value": "15 Dec", "label": "Effective From 2026"}
   ]
 }

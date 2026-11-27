@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Utsav Banquet Hall — Engagements, Birthdays &amp; Events</title>
-<meta name="description" content="Utsav Banquet Hall offers an AC hall for engagements, birthdays, corporate events, and social functions. 200 guest capacity, 50 one-time dining, parking for 10 four-wheelers &amp; 50 two-wheelers." />
+<title>Utsav Banquet Hall — Satav Chowk, Tandulwadi Road, Baramati</title>
+<meta name="description" content="Utsav Banquet Hall at Satav Chowk, Tandulwadi Road, Baramati. AC hall &amp; garden lawn for intimate weddings, receptions, birthdays, family functions, and corporate events. Max 200 guests." />
 {% endblock %}
 
 {% block content %}
@@ -35,22 +35,23 @@
       </div>
     </div>
 
-    <p class="font-display italic text-lg md:text-2xl text-gold-100 mb-7">Where Every Celebration Becomes a Memory</p>
+    <p class="font-display italic text-lg md:text-2xl text-gold-100 mb-7">Where every celebration becomes an Utsav.</p>
 
     <!-- Double-Gold-Framed Venue Image -->
     <div class="gold-double-frame max-w-3xl mx-auto mb-8 bg-burgundy-900">
       <img
         src="/static/images/hero.jpeg"
-        alt="Grand banquet hall interior at Utsav, Baramati"
+        alt="Utsav Banquet Hall &amp; Garden Lawn, Baramati"
         class="w-full h-64 sm:h-80 md:h-[380px] object-cover block"
       />
     </div>
 
-    <p class="text-gold-100/80 text-sm md:text-base font-light max-w-xl mx-auto mb-3 leading-relaxed">
-      AC Banquet Hall for Engagements, Birthdays, Corporate Events &amp; Social Functions &bull; 200 Guests (50 One-Time Dining).
+    <p class="text-gold-100/80 text-sm md:text-base font-light max-w-2xl mx-auto mb-3 leading-relaxed">
+      Intimate Weddings &bull; Reception &bull; Birthday &bull; Family Functions &bull; Corporate Events<br />
+      Max 200 Guests &bull; 75 Garden Lawn &bull; 75 AC Dining (per sitting)
     </p>
     <p class="text-xs uppercase tracking-[0.25em] text-gold-300 font-semibold mb-8">
-      Bookings Start From 15 December 2026
+      {{ site.address }} &bull; Effective from Dec 15, 2026
     </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a
@@ -99,7 +100,7 @@
       </h2>
       <div class="w-12 h-0.5 bg-gold-400 mb-6"></div>
       <p class="text-gray-600 leading-relaxed mb-6 text-sm md:text-base">
-        Utsav Banquet Hall offers a centrally air-conditioned space for up to 200 guests with 50 one-time dining capacity. We provide the AC hall, chairs, tables, stage, and parking for up to 10 four-wheelers and 50 two-wheelers. Note: no catering or decoration is provided from our side, and no cooking is allowed.
+        Located at {{ site.address }}, Utsav Banquet Hall features a fully air-conditioned hall (max 200 guests), AC dining area (75 guests per sitting), garden lawn (up to 75 guests), generator back-up (diesel charges extra if used), sound system, caterer kitchen (pure veg only), separate ladies &amp; gents washrooms, and a common changing room. Food, beverages, and decoration are arranged by the customer.
       </p>
       <a href="/about" class="inline-flex items-center gap-2 text-burgundy-800 font-semibold text-sm hover:text-gold-700 hover:gap-4 transition-all duration-300">
         Our Full Story
@@ -153,24 +154,19 @@
 <section class="py-24 max-w-6xl mx-auto px-6">
   <div class="text-center mb-14 reveal">
     <p class="text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-3">Transparent Pricing</p>
-    <h2 class="font-display text-4xl md:text-5xl font-bold text-burgundy-950">Simple &amp; Clear</h2>
+    <h2 class="font-display text-4xl md:text-5xl font-bold text-burgundy-950">Slots &amp; Rent</h2>
     <p class="text-gray-500 mt-4 text-sm max-w-2xl mx-auto">
-      Rs. 15,000 per slot for the first 100 bookings (Rs. 20,000 thereafter). Full Day at Rs. 25,000. All prices are excluding GST, which will be charged separately.
+      100% of rent + Rs. 10,000 refundable security deposit payable at booking. Extra hours: Rs. 5,000/hr (never beyond 10:00 PM).
     </p>
   </div>
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 reveal">
+  <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 reveal">
     {% for slot in site.slots if slot.active %}
     <div class="border rounded-2xl p-8 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group {% if slot.featured %}bg-burgundy-900 text-ivory border-gold-400 shadow-lg{% else %}bg-white border-gold-200 hover:border-gold-400{% endif %}">
       <p class="text-xs uppercase tracking-[0.2em] font-semibold {% if slot.featured %}text-gold-300{% else %}text-burgundy-700{% endif %} mb-3">{{ slot.label }}</p>
       <p class="font-display text-3xl font-bold {% if slot.featured %}text-gold-200{% else %}text-burgundy-950{% endif %} mb-1">
-        <span class="text-lg font-normal">Rs.</span> {{ "{:,}".format(slot.price) }} <span class="text-xs font-normal opacity-80">+ GST</span>
+        <span class="text-lg font-normal">Rs.</span> {{ "{:,}".format(slot.price) }}
       </p>
-      <p class="text-xs {% if slot.featured %}text-gold-100/70{% else %}text-gray-500{% endif %} mb-2">{{ slot.time }}</p>
-      {% if slot.regular_price %}
-      <p class="text-[11px] {% if slot.featured %}text-gold-300/80{% else %}text-burgundy-700/80{% endif %} mb-5">First 100 bookings (Reg. Rs. {{ "{:,}".format(slot.regular_price) }})</p>
-      {% else %}
-      <p class="text-[11px] {% if slot.featured %}text-gold-300/80{% else %}text-burgundy-700/80{% endif %} mb-5">Complete Day Access</p>
-      {% endif %}
+      <p class="text-xs {% if slot.featured %}text-gold-100/70{% else %}text-gray-500{% endif %} mb-6">{{ slot.time }}</p>
       <a
         href="/booking?slot={{ slot.key }}"
         class="block text-xs uppercase tracking-widest py-2.5 px-4 rounded-full font-semibold transition-all duration-300
@@ -196,11 +192,16 @@
       Your Perfect Day Begins Here
     </h2>
     <p class="text-gold-100/80 mb-10 text-sm leading-relaxed">
-      Bookings open from 15 December 2026. Lock in the introductory Rs. 15,000 per slot rate (first 100 bookings, excluding GST).
+      Effective from Dec 15, 2026. Bookings are confirmed upon 100% rent payment, Rs. 10,000 refundable security deposit, and signed Booking Terms &amp; Policy.
     </p>
-    <a href="/booking" class="gold-pill-btn px-12 py-4 rounded-full text-sm font-bold tracking-wider uppercase inline-block">
-      Check Availability Now
-    </a>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="/booking" class="gold-pill-btn px-10 py-4 rounded-full text-sm font-bold tracking-wider uppercase inline-block">
+        Check Availability Now
+      </a>
+      <a href="/terms" class="border border-gold-400/70 hover:border-gold-300 hover:bg-gold-400/10 text-gold-200 px-8 py-4 rounded-full text-sm font-semibold tracking-wider uppercase inline-block transition-all duration-300">
+        Read Terms &amp; Policy
+      </a>
+    </div>
   </div>
 </section>
 
@@ -211,12 +212,12 @@
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <p class="text-xs text-burgundy-700 uppercase tracking-[0.3em] font-semibold mb-2">Find Us</p>
-      <h2 class="font-display text-3xl font-bold text-burgundy-950">Venue Location</h2>
+      <h2 class="font-display text-3xl font-bold text-burgundy-950">{{ site.address }}</h2>
     </div>
     <div class="reveal rounded-2xl bg-burgundy-900 border border-gold-400/40 p-10 text-center shadow-lg">
       <p class="text-gold-200 font-display text-2xl font-semibold mb-3">Utsav Banquet Hall</p>
       <p class="text-gold-100/80 text-sm max-w-lg mx-auto mb-6">
-        Open our exact location pin on Google Maps for directions and parking access (up to 10 four-wheelers &amp; 50 two-wheelers).
+        {{ site.address }} &bull; Parking for 10 four-wheelers &amp; 50 two-wheelers (first come, first served).
       </p>
       <a
         href="{{ site.map_url }}"

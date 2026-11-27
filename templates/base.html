@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {% block meta %}
-  <title>{{ site.business_name if site is defined else 'Utsav Banquet Hall' }} — AC Banquet Hall</title>
-  <meta name="description" content="Utsav Banquet Hall — Centrally air-conditioned banquet hall for engagements, birthdays, corporate events, and social functions. Bookings open from 15 December 2026." />
+  <title>{{ site.business_name if site is defined else 'Utsav Banquet Hall' }} — Satav Chowk, Tandulwadi Road, Baramati</title>
+  <meta name="description" content="Utsav Banquet Hall at Satav Chowk, Tandulwadi Road, Baramati — AC hall &amp; garden lawn for intimate weddings, receptions, birthdays, family functions, and corporate events. Effective from Dec 15, 2026." />
   {% endblock %}
-  <meta name="keywords" content="utsav banquet hall, ac banquet hall, engagement venue, birthday hall, corporate event venue, social function hall" />
+  <meta name="keywords" content="banquet hall baramati, utsav banquet, satav chowk tandulwadi road baramati, intimate wedding venue baramati, garden lawn baramati" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="Utsav Banquet Hall" />
-  <meta property="og:description" content="AC Banquet Hall for engagements, birthdays, corporate events, and social functions. 200 guest capacity." />
+  <meta property="og:title" content="Utsav Banquet Hall — Baramati" />
+  <meta property="og:description" content="AC Banquet Hall &amp; Garden Lawn at Satav Chowk, Tandulwadi Road, Baramati. Max 200 guests." />
   <meta property="og:type" content="website" />
 
   <!-- Tailwind CSS -->
@@ -172,6 +172,7 @@
           <li><a href="/gallery" class="hover:text-gold-300 transition-colors">Gallery</a></li>
           <li><a href="/pricing" class="hover:text-gold-300 transition-colors">Pricing</a></li>
           <li><a href="/booking" class="hover:text-gold-300 transition-colors">Book Now</a></li>
+          <li><a href="/terms" class="hover:text-gold-300 transition-colors">Booking Terms &amp; Policy</a></li>
           <li><a href="/privacy" class="hover:text-gold-300 transition-colors">Privacy Policy</a></li>
         </ul>
       </div>
@@ -179,9 +180,10 @@
       <div>
         <h4 class="text-xs font-semibold uppercase tracking-[0.25em] text-gold-300 mb-4">Contact</h4>
         <address class="not-italic text-sm text-gold-100/70 space-y-2">
+          <p>{{ site.address }}</p>
           <p>
-            <a href="{{ site.map_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-gold-300 underline transition-colors">
-              View Venue Location on Google Maps
+            <a href="{{ site.map_url }}" target="_blank" rel="noopener noreferrer" class="hover:text-gold-300 underline transition-colors text-xs">
+              Open in Google Maps
             </a>
           </p>
           <p class="mt-3">
@@ -201,7 +203,7 @@
     </div>
     <div class="max-w-6xl mx-auto px-6 mt-12 pt-6 border-t border-gold-400/15 flex flex-col md:flex-row justify-between items-center gap-3">
       <p class="text-xs text-gold-100/50">&copy; {{ current_year }} Utsav Banquet Hall. All rights reserved.</p>
-      <p class="text-xs text-gold-100/40">Bookings open from 15 December 2026</p>
+      <p class="text-xs text-gold-100/40">{{ site.address }} &bull; Effective from Dec 15, 2026</p>
     </div>
   </footer>
 

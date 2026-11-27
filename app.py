@@ -96,6 +96,11 @@ def privacy():
     return render_template("privacy.html")
 
 
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template("error.html", code=404, message="The page you requested could not be found."), 404

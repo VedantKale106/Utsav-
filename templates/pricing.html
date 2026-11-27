@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Pricing — Utsav Banquet Hall</title>
-<meta name="description" content="Transparent pricing at {{ site.business_name }}. Morning (9 AM - 1 PM) &amp; Evening (4 PM - 9 PM) at Rs. 15,000 for first 100 bookings (Rs. 20,000 thereafter), Full Day Rs. 25,000, excluding GST." />
+<title>Pricing — Utsav Banquet Hall, Baramati</title>
+<meta name="description" content="Slots &amp; rent at {{ site.business_name }}: Morning (Rs. 15,999), Afternoon (Rs. 12,999), Evening (Rs. 17,999), Full Day (Rs. 35,999). Refundable security deposit Rs. 10,000." />
 {% endblock %}
 
 {% block content %}
@@ -18,11 +18,11 @@
 <section class="py-24 max-w-6xl mx-auto px-6">
   <div class="text-center mb-14 reveal">
     <p class="text-gray-500 text-sm max-w-2xl mx-auto">
-      Bookings start from <strong>15 December 2026</strong>. Morning &amp; Evening slots are <strong>Rs. 15,000</strong> for the first 100 bookings (Rs. 20,000 thereafter), and Full Day is <strong>Rs. 25,000</strong>. All prices are <strong>excluding GST</strong>, which will be charged separately.
+      Effective from <strong>Dec 15, 2026</strong>. 100% of rent plus a <strong>Rs. 10,000 refundable security deposit</strong> is payable at booking. Extra hours are charged at <strong>Rs. 5,000/hr</strong> (never beyond 10:00 PM).
     </p>
   </div>
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 reveal">
     {% for item in site.slots if item.active %}
     {% set is_featured = item.featured %}
     <div class="relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl
@@ -45,20 +45,14 @@
 
         <!-- Current rate -->
         <div class="{% if is_featured %}bg-burgundy-950/60 border border-gold-400/25{% else %}bg-ivory border border-gold-100{% endif %} rounded-xl p-4 mb-6">
-          <p class="text-xs {% if is_featured %}text-gold-300{% else %}text-burgundy-700{% endif %} font-semibold mb-1">
-            {% if item.regular_price %}First 100 Bookings{% else %}Full Day Rate{% endif %}
-          </p>
-          <p class="font-display text-xl font-bold {% if is_featured %}text-gold-200{% else %}text-burgundy-900{% endif %}">
-            Rs. {{ "{:,}".format(item.price) }} <span class="text-xs font-normal">+ GST</span>
-          </p>
-          <p class="text-xs {% if is_featured %}text-gold-100/60{% else %}text-gray-400{% endif %}">
-            {% if item.regular_price %}Rs. {{ "{:,}".format(item.regular_price) }} + GST after 100 bookings{% else %}GST charged separately{% endif %}
-          </p>
+          <p class="text-xs {% if is_featured %}text-gold-300{% else %}text-burgundy-700{% endif %} font-semibold mb-1">Slot Rent</p>
+          <p class="font-display text-xl font-bold {% if is_featured %}text-gold-200{% else %}text-burgundy-900{% endif %}">Rs. {{ "{:,}".format(item.price) }}</p>
+          <p class="text-xs {% if is_featured %}text-gold-100/60{% else %}text-gray-400{% endif %}">+ Rs. 10,000 refundable deposit</p>
         </div>
 
         <!-- Inclusions -->
         <ul class="space-y-2 mb-8">
-          {% for feature in ["AC Hall (200 Guest Capacity)", "50 One-Time Dining Area", "Parking: 10 4W & 50 2W", "Chairs, Tables & Stage"] %}
+          {% for feature in ["Full AC Hall & Dining (75/sitting)", "Garden Lawn (up to 75 guests)", "Generator (Diesel extra if used)", "Caterer Kitchen & Common Changing Room"] %}
           <li class="flex items-center gap-2 text-xs {% if is_featured %}text-gold-100/85{% else %}text-gray-500{% endif %}">
             <svg class="w-3.5 h-3.5 text-gold-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -91,11 +85,11 @@
     </div>
     <div class="space-y-4">
       {% for q, a in [
-        ("Are the listed prices inclusive of GST?", "No. All prices are excluding GST, which will be charged separately."),
-        ("How does the Rs. 15,000 introductory slot pricing work?", "Morning (9 AM - 1 PM) and Evening (4 PM - 9 PM) slots are Rs. 15,000 + GST for the first 100 bookings. After the first 100 bookings, the rate is Rs. 20,000 + GST per slot. Full Day (9 AM - 9 PM) is Rs. 25,000 + GST."),
-        ("What is included in the booking?", "We only provide the AC hall (200 guest capacity, 50 one-time dining), parking (up to 10 four-wheelers and 50 two-wheelers), chairs, tables, and stage."),
-        ("Do you provide catering, decoration, or cooking facilities?", "No. There is no catering or decoration from our side, and no cooking is allowed on the premises."),
-        ("When do bookings start?", "Bookings start from 15 December 2026."),
+        ("What are the payment and security deposit terms?", "100% of the rent plus a Rs. 10,000 refundable security deposit must be paid at the time of booking, along with signing the Booking Terms & Policy and submitting photo ID. The deposit is refunded by bank transfer within 7 working days after the event, subject to any deductions."),
+        ("What is included and not included in the rent?", "Included: Chairs, garden lawn (up to 75 guests), AC dining area (75 per sitting), full AC (hall & dining), generator back-up (diesel charges extra if used), kitchen for your caterer, sound system with speakers, separate washrooms for ladies and gents, and a common changing room. Not included: Food/catering, beverages, and decoration."),
+        ("What is the cancellation and date change policy?", "Written cancellation refunds: 15 days to 1 month = 50% of rent; 5 to 14 days = 25% of rent; less than 5 days = no refund (more than 1 month as per signed form). Security deposit is refunded in full. One free date change is allowed with at least 15 days' notice."),
+        ("Are non-veg food, alcohol, or late-night music allowed?", "No. Only pure vegetarian food is allowed (no non-veg or eggs). Alcohol, smoking, tobacco, weapons, and single-use plastic/thermocol are strictly prohibited. All music/DJ must stop at 10:00 PM sharp."),
+        ("What about decoration and extra hours?", "Decoration, set-up, and clearing must finish within the booked slot (no nails, screws, tape, glue, pins, or paint on walls/furniture). Extra hours are Rs. 5,000/hr only if the next slot is free, and never beyond 10:00 PM."),
       ] %}
       <details class="group border border-gold-100 rounded-xl overflow-hidden">
         <summary class="flex justify-between items-center px-6 py-4 cursor-pointer font-medium text-sm text-charcoal hover:bg-gold-50 transition-colors list-none">
